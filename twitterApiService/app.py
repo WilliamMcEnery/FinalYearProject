@@ -2,10 +2,8 @@
 
 entry pint for this Twitter API service
 """
-from flask import Flask
-
-app = Flask(__name__)
+from twitter_api_service import app
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

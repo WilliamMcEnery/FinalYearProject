@@ -4,23 +4,7 @@ module which contains function to make requests to the Twitter API
 """
 import json
 import requests
-
-
-def get_token():
-    """
-
-    @rtype: str
-    @return: Twitter API Bearer Token
-    """
-    try:
-        with open('config.json', 'r') as file:
-            config = json.load(file)
-            return config["token"]
-    except FileNotFoundError as err:
-        print("Config not found!", err)
-        raise SystemExit from err
-    except KeyError:
-        print("Token not found!")
+from twitter_api_service import app
 
 
 def get_tweets(topic):
@@ -28,10 +12,6 @@ def get_tweets(topic):
 
     @rtype: object
     """
-    token = get_token()
-    if not token:
-        return {}
-
     url = "https://api.twitter.com/2/tweets/search/recent?query=%23" + topic
     payload = {
         "expansions": "author_id",
@@ -39,7 +19,7 @@ def get_tweets(topic):
         "max_results": "100"
     }
     headers = {
-        "Authorization": "Bearer " + token
+        "Authorization": "Bearer " + app.config["TOKEN"]
     }
 
     try:
