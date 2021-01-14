@@ -44,7 +44,12 @@ def get_tweets(topic):
 
     try:
         res = requests.get(url, timeout=1, params=payload, headers=headers)
-        return res
+
+        tweet_users = res.json().get("includes").get("users")
+        filtered_users = list(filter(lambda x: x.get("location"), tweet_users))
+        locations = list(map(lambda x: x.get("location"), filtered_users))
+
+        return json.dumps(locations)
     except requests.exceptions.ConnectionError as err:
         print("Connection Error", err)
     except requests.exceptions.Timeout as err:
@@ -53,6 +58,3 @@ def get_tweets(topic):
         print("Http Error:", err)
     except requests.exceptions.RequestException as err:
         print("Oops something went wrong", err)
-
-
-get_tweets("Liverpool")
