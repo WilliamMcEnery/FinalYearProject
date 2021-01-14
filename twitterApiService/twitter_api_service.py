@@ -1,20 +1,33 @@
+"""
+
+module which contains function to make requests to the Twitter API
+"""
 import json
 import requests
 
 
 def get_token():
+    """
+
+    @rtype: str
+    @return: Twitter API Bearer Token
+    """
     try:
         with open('config.json', 'r') as file:
             config = json.load(file)
             return config["token"]
     except FileNotFoundError as err:
         print("Config not found!", err)
-        raise SystemExit(err)
+        raise SystemExit from err
     except KeyError:
         print("Token not found!")
 
 
 def get_tweets(topic):
+    """
+
+    @rtype: object
+    """
     token = get_token()
     if not token:
         return {}
@@ -31,8 +44,7 @@ def get_tweets(topic):
 
     try:
         res = requests.get(url, timeout=1, params=payload, headers=headers)
-        print(res.text)
-        print(res.url)
+        return res
     except requests.exceptions.ConnectionError as err:
         print("Connection Error", err)
     except requests.exceptions.Timeout as err:
