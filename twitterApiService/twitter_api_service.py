@@ -23,7 +23,7 @@ def get_token():
         print("Token not found!")
 
 
-def get_tweets(topic):
+def get_tweets(topic, next_tweets=""):
     """
 
     @rtype: object
@@ -44,7 +44,19 @@ def get_tweets(topic):
 
     try:
         res = requests.get(url, timeout=1, params=payload, headers=headers)
-        return res
+        # if res.json().get("meta").get("next_token"):
+        #     next_token = res.json().get("meta").get("next_token")
+        #     get_tweets(topic, next_token)
+
+        # print(next_token)
+
+        old_list = res.json().get("includes").get("users")
+        newer_list = list(filter(lambda x: x.get("location"), old_list))
+        my_newest_list = list(map(lambda x: x.get("location"), newer_list))
+
+        print(my_newest_list)
+
+        return res.json()
     except requests.exceptions.ConnectionError as err:
         print("Connection Error", err)
     except requests.exceptions.Timeout as err:
