@@ -1,3 +1,7 @@
+"""
+
+init file for twitter_api_service package
+"""
 from flask import Flask
 
 app = Flask(__name__)
