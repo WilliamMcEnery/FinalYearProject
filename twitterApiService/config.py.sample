@@ -1,8 +1,17 @@
+"""
+
+This module contains the configuration
+"""
+
+
 class Config(object):
     DEBUG = False
     TESTING = False
 
-    TOKEN = "< Enter Bearer Token >"
+    TOKEN = "<Enter Bearer Token>"
+    KAFKA_BROKER_HOST_ADDR = "127.0.0.1:9092"   # Kafka address and port num.
+    CONSUMER_TOPIC_NAME = "<Enter_Kafka_Topic_For_Consumer>"    # Topic name
+    PRODUCER_TOPIC_NAME = "<Enter_Kafka_Topic_For_Producer>"    # Topic name
 
 
 class ProductionConfig(Config):
