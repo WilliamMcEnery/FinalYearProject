@@ -23,12 +23,11 @@ def get_tweets(topic):
     }
 
     try:
-        print(topic)
+        if topic == "":
+            return json.dumps([])
         res = requests.get(url, timeout=1, params=payload, headers=headers)
-        print(res.text)
 
         if res.status_code == 200 and res.json().get("meta").get("result_count") != 0:
-            print("Tweets received!")
             tweet_users = res.json().get("includes").get("users")
             filtered_users = list(filter(lambda x: x.get("location"), tweet_users))
             locations = list(map(lambda x: x.get("location"), filtered_users))
@@ -38,9 +37,13 @@ def get_tweets(topic):
         return json.dumps([])
     except requests.exceptions.ConnectionError as err:
         print("Connection Error", err)
+        raise
     except requests.exceptions.Timeout as err:
         print("Connection to api.twitter.com has timed out", err)
+        raise
     except requests.exceptions.HTTPError as err:
         print("Http Error:", err)
+        raise
     except requests.exceptions.RequestException as err:
         print("Oops something went wrong", err)
+        raise

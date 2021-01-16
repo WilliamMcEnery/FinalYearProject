@@ -4,6 +4,9 @@
 # Datasource local storage ignored files
 /../../../../../../../:\Users\William McEnery\repo\FinalYearProject\twitterApiService\.idea/dataSources/
 /dataSources.local.xml
+dataSources
 # Editor-based HTTP Client requests
 /httpRequests/
 ../env
+/*.xml
+/twitterApiService.iml
