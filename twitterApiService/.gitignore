@@ -2,13 +2,3 @@ env
 config.py
 __pycache__/
 .coverage
-
-# User-specific stuff:
-#.idea/workspace.xml
-#.idea/vcs.xml
-
-#*.iml
-#.idea/modules.xml
-#.idea/misc.xml
-#.idea/pylint.xml
-#.idea/dataSources.xml
