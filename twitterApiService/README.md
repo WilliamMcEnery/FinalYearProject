@@ -61,8 +61,8 @@ class TestingConfig(Config):
 
 - Populate the `config.py` file with your 
     - Twitter bearer token
-    - Consumer topic name or \<first-topic-name> from Kafka setup
-    - Producer topic name or \<second-topic-name> from Kafka setup
+    - Consumer topic name or \<first-topic-name> from Kafka setup.
+    - Producer topic name or \<second-topic-name> from Kafka setup.
 
 ### Running your service
 

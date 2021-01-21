@@ -25,7 +25,7 @@ Install Latest Apache Kafka: [Kafka](https://kafka.apache.org/downloads)
 
 #### Start the Kafka environment
 
-Start the ZooKeeper service
+Start the ZooKeeper service:
 
 ```bash
 $ bin/zookeeper-server-start.sh config/zookeeper.properties
