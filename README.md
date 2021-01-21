@@ -17,6 +17,33 @@ Apply for a Twitter developer account [Here](https://developer.twitter.com/en/ap
 
 Install Latest Python and pip: [Python](https://www.python.org/downloads/)
 
+Install Java 8+: [Java](https://www.java.com/en/download/)
+
 Install Latest Apache Kafka: [Kafka](https://kafka.apache.org/downloads)
+
+### Running each service
+
+#### Start the Kafka environment
+
+Start the ZooKeeper service
+
+```bash
+$ bin/zookeeper-server-start.sh config/zookeeper.properties
+```
+
+Open another terminal session and start the Kafka broker service:
+
+```bash
+$ bin/kafka-server-start.sh config/server.properties
+```
+
+Open another terminal session and create the Kafka topics:
+
+```bash
+$ bin/kafka-topics.sh --create --topic tweet-topic --bootstrap-server localhost:9092
+$ bin/kafka-topics.sh --create --topic locations-topic --bootstrap-server localhost:9092
+```
+
+#### Start the Twitter API service
 
 See Twitter API service [README](twitterApiService/README.md) to run Twitter API service.
