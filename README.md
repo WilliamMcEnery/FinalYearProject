@@ -37,11 +37,11 @@ Open another terminal session and start the Kafka broker service:
 $ bin/kafka-server-start.sh config/server.properties
 ```
 
-Open another terminal session and create the Kafka topics:
+Open another terminal session and create the Kafka topics replacing the topic name tags:
 
 ```bash
-$ bin/kafka-topics.sh --create --topic tweet-topic --bootstrap-server localhost:9092
-$ bin/kafka-topics.sh --create --topic locations-topic --bootstrap-server localhost:9092
+$ bin/kafka-topics.sh --create --topic <first-topic-name> --bootstrap-server localhost:9092
+$ bin/kafka-topics.sh --create --topic <second-topic-name> --bootstrap-server localhost:9092
 ```
 
 #### Start the Twitter API service
