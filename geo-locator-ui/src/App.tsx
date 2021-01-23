@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import './App.css';
 // Importing Components
-import Header from "./components/header";
-import Form from "./components/form";
-import Map from "./components/map";
+import Header from "./components/Header";
+import Form from "./components/Form";
+import Map from "./components/Map";
 
 function App() {
     const [inputText, setInputText] = useState<string>("");
