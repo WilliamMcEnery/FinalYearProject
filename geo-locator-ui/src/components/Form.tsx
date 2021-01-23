@@ -1,13 +1,16 @@
 import React from "react";
-import { TweetGeoLocationService } from "../services/tweetGeoLocationService"
+import {TweetGeoLocationService} from "../services/tweetGeoLocationService"
+import { MarkerObj } from "../models/MarkerObject"
+
 const tweetGeoLocationService = new TweetGeoLocationService()
 
 interface Props {
     inputText: string;
     setInputText: (txt: string) => void;
+    setMarkers: (data: [MarkerObj]) => void;
 }
 
-const Form: React.FC<Props> = ({inputText, setInputText}) => {
+const Form: React.FC<Props> = ({inputText, setInputText, setMarkers}) => {
     const inputTextHandler = (e: any) => {
         console.log(e.target.value)
         setInputText(e.target.value)
@@ -17,6 +20,13 @@ const Form: React.FC<Props> = ({inputText, setInputText}) => {
         const res = await tweetGeoLocationService.getLocations(inputText)
         console.log(res)
         setInputText("");
+        setMarkers([
+            {
+                name: "Limerick",
+                latitude: 52.518831649999996,
+                longitude: -8.79583467779582
+            }
+        ])
     };
     return (
         <form>
@@ -26,4 +36,4 @@ const Form: React.FC<Props> = ({inputText, setInputText}) => {
     )
 }
 
-export default Form
+export default Form;
