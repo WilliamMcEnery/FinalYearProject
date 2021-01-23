@@ -1,6 +1,9 @@
 import React from "react";
 import {TweetGeoLocationService} from "../services/tweetGeoLocationService"
-import { MarkerObj } from "../models/MarkerObject"
+import {MarkerObj} from "../models/MarkerObject"
+import {Button} from "react-bootstrap";
+import form from "react-bootstrap/Form";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const tweetGeoLocationService = new TweetGeoLocationService()
 
@@ -30,8 +33,14 @@ const Form: React.FC<Props> = ({inputText, setInputText, setMarkers}) => {
     };
     return (
         <form>
-            <input value={inputText} onChange={inputTextHandler} type="text" className="topic-input"/>
-            <button onClick={submitButtonHandler} type="submit">Search</button>
+            <div className="input-group mb-3">
+                <input value={inputText} onChange={inputTextHandler} type="text" className="form-control"
+                       placeholder="topic"
+                       aria-label="Recipient's username" aria-describedby="button-addon2"/>
+                <Button onClick={submitButtonHandler} variant="outline-secondary">
+                    Search
+                </Button>
+            </div>
         </form>
     )
 }

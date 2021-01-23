@@ -4,6 +4,7 @@ import './App.css';
 import Header from "./components/Header";
 import Form from "./components/Form";
 import Map from "./components/Map";
+import {Container} from "react-bootstrap";
 
 function App() {
     const [inputText, setInputText] = useState<string>("");
@@ -18,15 +19,16 @@ function App() {
 
     return (
         <div>
-            <div className="App">
-                <Header/>
-            </div>
-            <div>
-                <Form inputText={inputText} setInputText={setInputText} setMarkers={setMarkers}/>
-            </div>
-            <div>
-                <Map viewport={viewport} setViewport={setViewport} markers={markers}/>
-            </div>
+            <Container>
+                <div className="App">
+                    <Header/>
+                </div>
+                <div>
+                    <Form inputText={inputText} setInputText={setInputText} setMarkers={setMarkers}/>
+                </div>
+            </Container>
+
+            <Map viewport={viewport} setViewport={setViewport} markers={markers}/>
         </div>
     );
 }
