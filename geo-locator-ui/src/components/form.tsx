@@ -26,4 +26,4 @@ const Form: React.FC<Props> = ({inputText, setInputText}) => {
     )
 }
 
-export default Form
+export default Form;
