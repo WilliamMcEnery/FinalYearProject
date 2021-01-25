@@ -1,7 +1,20 @@
-/*.App {*/
-/*  text-align: center;*/
-/*}*/
+.App {
+  text-align: center;
+}
 
-.App-header {
-    background-color: #000000;
+.display-1 {
+    color: #343a40!important;
+}
+
+.myContainer {
+    text-align: center;
+}
+
+.form-control {
+    background-color: #212529!important;
+}
+
+.myMap {
+    display: flex;
+    justify-content: center;
 }

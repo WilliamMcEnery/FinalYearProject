@@ -35,9 +35,9 @@ const Form: React.FC<Props> = ({inputText, setInputText, setMarkers}) => {
         <form>
             <div className="input-group mb-3">
                 <input value={inputText} onChange={inputTextHandler} type="text" className="form-control"
-                       placeholder="topic"
-                       aria-label="Recipient's username" aria-describedby="button-addon2"/>
-                <Button onClick={submitButtonHandler} variant="outline-secondary">
+                       placeholder="#topic"
+                       />
+                <Button onClick={submitButtonHandler} variant="dark">
                     Search
                 </Button>
             </div>
