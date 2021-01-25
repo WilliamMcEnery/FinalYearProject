@@ -20,7 +20,8 @@ const Map: React.FC<Props> = ({viewport, setViewport, markers}) => {
     return (
         <ReactMapGL {...viewport}
                     onViewportChange={viewport => setViewport(viewport)}
-                    mapStyle="mapbox://styles/williammcenery/ckk9s9dgz2mwx17o61altjahe"
+                    onResize={viewport => setViewport(viewport)}
+                    mapStyle={process.env.REACT_APP_MAPBOX_STYLE}
                     mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}>
             <Markers data={markers}/>
         </ReactMapGL>
