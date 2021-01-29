@@ -14,6 +14,7 @@ export class Server {
     }
 
     public run(): void {
-        this.app.listen(process.env.PORT, () => console.log("Server listening on port " + process.env.PORT));
+        const port = process.env.PORT || 8080;
+        this.app.listen(port, () => console.log("Server listening on port " + port));
     }
 }
