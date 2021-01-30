@@ -5,15 +5,18 @@ import * as WebSocket from "ws";
 
 export class Server {
 
-    private server: http.Server
+    private readonly server: http.Server
 
-    constructor(private app: express.Express) {
+    constructor(private readonly app: express.Express) {
+        const dir = path.join(__dirname, "../../geo-locator-ui/build/");
+        
         this.app = app;
 
-        this.app.use(express.static(path.resolve("./") + "/build/"));
-
+        // Set the static and views directory
+        this.app.set("views",  dir);
+        this.app.use(express.static(dir));
         this.app.get("*", (req: express.Request, res: express.Response): void => {
-            res.sendFile(path.resolve("./") + "/build/frontend/index.html");
+            res.sendFile("index.html", {root: dir});
         });
 
         //initialize a simple http server
