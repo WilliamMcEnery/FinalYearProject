@@ -1,10 +1,12 @@
+import websocketClient from "../client/websocketClient";
+
 export class TweetGeoLocationService {
+    private ws = new websocketClient().getWebsocketInstance();
 
     public async getLocations(topic: string) {
+        this.ws.send(topic);
         return (
-            fetch(`http://localhost:3000/api/getLocations?topic=${topic}`)
-                .then((res: any) => res.json())
-                .catch((err) => console.log(err))
+            "hello it was a success!"
         )
     }
 }

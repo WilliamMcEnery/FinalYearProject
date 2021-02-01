@@ -32,6 +32,8 @@ export class Server {
             ws.on("message", (msg: string) => {
                 console.log("Received a message: " + msg);
             });
+
+            ws.on("close", () => console.log("Client has disconnected"));
         });
     }
 
