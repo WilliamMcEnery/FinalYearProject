@@ -19,8 +19,8 @@ interface Props {
 const Map: React.FC<Props> = ({viewport, setViewport, markers}) => {
     return (
         <ReactMapGL {...viewport}
-                    onViewportChange={viewport => setViewport(viewport)}
-                    onResize={viewport => setViewport(viewport)}
+                    onViewportChange={(viewport: any) => setViewport(viewport)}
+                    onResize={(viewport: any) => setViewport(viewport)}
                     mapStyle={process.env.REACT_APP_MAPBOX_STYLE}
                     mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}>
             <Markers data={markers}/>
