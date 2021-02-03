@@ -25,10 +25,13 @@ export default class {
     private getClient(): Producer {
         if (!this.producer) {
             try {
+                const kafkaHost = process.env.KAFKA_HOST || "localhost";
+                const kafkaBrokerPort = process.env.KAFKA_HOST || 9092;
+
                 // Create Kafka connection.
                 const kafka = new Kafka({
                     "clientId": "myapp",
-                    "brokers" :["localhost:9092"]
+                    "brokers" :[`${kafkaHost}:${kafkaBrokerPort}`]
                 });
 
                 // Create Kafka producer.

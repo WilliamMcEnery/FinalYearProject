@@ -37,10 +37,7 @@ export class Server {
 
             ws.on("message", (msg: string) => {
                 console.log("Received a message: " + msg);
-                this.TweetGeoLocationService.getGeoLocations(msg)
-                    .then((res: any) => {
-                        ws.send(res);
-                    });
+                this.TweetGeoLocationService.getGeoLocations(msg).then(r => console.log(r));
                 ws.send("Hello there!");
             });
 
