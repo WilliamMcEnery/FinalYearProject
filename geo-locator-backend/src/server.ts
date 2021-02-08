@@ -4,11 +4,14 @@ import * as http from "http";
 import * as WebSocket from "ws";
 import kafkaProducerClient from "./client/kafkaProducerClient";
 import {TweetGeoLocationService} from "./services/tweetGeoLocationService";
+import {HelloKitty} from "./client/helloKitty";
+import {EachMessagePayload} from "kafkajs";
 
 export class Server {
 
     private readonly server: http.Server
     private TweetGeoLocationService = new TweetGeoLocationService();
+    private helloKitty = new HelloKitty();
 
     constructor(private readonly app: express.Express) {
         const dir = path.join(__dirname, "../../geo-locator-ui/build/");
@@ -31,14 +34,26 @@ export class Server {
         // initialize the WebSocket server instance
         const wss = new WebSocket.Server({ server: this.server });
 
-        wss.on("connection", (ws: WebSocket) => {
+        wss.on("connection",  (ws: WebSocket) => {
             console.log("A new client Connected!");
             ws.send("Hello there!");
 
-            ws.on("message", (msg: string) => {
+            ws.on("message", async (msg: string) => {
                 console.log("Received a message: " + msg);
+                const kitty = await this.helloKitty.getKafkaConsumerInstance();
                 this.TweetGeoLocationService.getGeoLocations(msg).then(r => console.log(r));
-                ws.send("Hello there!");
+
+                await kitty.run({
+                    eachMessage: async (result: EachMessagePayload) => {
+                        if (`${result.message.value}` == msg) {
+                            console.log(`Got the topic ${msg}`);
+                            ws.send(`${result.message.value}`);
+                            await kitty.disconnect();
+                        }
+                        console.log(`Message: ${result.message.value}`);
+                    }
+                });
+                // ws.send("Hello there!");
             });
 
             ws.on("close", () => console.log("Client has disconnected"));
