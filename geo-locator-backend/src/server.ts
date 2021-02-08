@@ -46,14 +46,18 @@ export class Server {
                 await kitty.run({
                     eachMessage: async (result: EachMessagePayload) => {
                         if (`${result.message.value}` == msg) {
+                            console.log("=========");
+                            console.log(msg);
                             console.log(`Got the topic ${msg}`);
                             ws.send(`${result.message.value}`);
                             await kitty.disconnect();
                         }
-                        console.log(`Message: ${result.message.value}`);
+                        console.log("=====================");
+                        console.log(`${result.message.value}`);
+                        console.log(JSON.parse(`${result.message.value}`));
+                        console.log("=====================");
                     }
                 });
-                // ws.send("Hello there!");
             });
 
             ws.on("close", () => console.log("Client has disconnected"));

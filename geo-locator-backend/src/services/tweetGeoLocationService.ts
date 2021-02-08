@@ -12,7 +12,7 @@ export class TweetGeoLocationService {
             value: topic
         };
         const record: ProducerRecord = {
-            topic: "producer-test",
+            topic: "tweet-topics",
             messages: [message]
         };
 
@@ -24,16 +24,5 @@ export class TweetGeoLocationService {
                 console.log(err);
                 throw(err);
             });
-
-        // await kitty.run({
-        //     eachMessage: async (result: EachMessagePayload) => {
-        //         if (`${result.message.value?.toString()}` == topic) {
-        //             console.log(`Got the topic ${topic}`);
-        //             myResult = `${result.message.value}`;
-        //             await kitty.disconnect();
-        //         }
-        //         console.log(`Message: ${result.message.value}`);
-        //     }
-        // });
     }
 }

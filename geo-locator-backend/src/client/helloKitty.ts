@@ -24,7 +24,7 @@ export class HelloKitty {
 
             // Subscribe to topic
             await consumer.subscribe({
-                "topic": "consumer-test",
+                "topic": "tweet-results",
                 "fromBeginning": false
             });
 
