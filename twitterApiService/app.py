@@ -46,7 +46,7 @@ def topic_producer(message):
 
     producer = topic.get_sync_producer()
 
-    producer.produce(message.encode('ascii'))
+    producer.produce(message.encode('utf-8'))
 
 
 if __name__ == "__main__":

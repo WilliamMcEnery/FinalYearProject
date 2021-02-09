@@ -32,7 +32,11 @@ def get_tweets(topic):
             filtered_users = list(filter(lambda x: x.get("location"), tweet_users))
             locations = list(map(lambda x: x.get("location"), filtered_users))
 
-            return json.dumps(locations)
+            data = {
+                "topic": topic,
+                "locations": locations
+            }
+            return json.dumps(data)
 
         return json.dumps([])
     except requests.exceptions.ConnectionError as err:
