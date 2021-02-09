@@ -6,7 +6,7 @@ export class GeoCodingService {
     public async getCoordinates(data: any): Promise<CoordinateObj[]> {
         const options: Options = {
             provider: "mapquest",
-            apiKey: "CLs6cEsAxjnv5Ynbnk2iR5x9lQUX3Trv",
+            apiKey: process.env.MAPQUEST_API_KEY,
         };
 
         const geocoder = NodeGeocoder(options);
