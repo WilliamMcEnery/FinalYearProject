@@ -6,12 +6,14 @@ import kafkaProducerClient from "./client/kafkaProducerClient";
 import {TweetGeoLocationService} from "./services/tweetGeoLocationService";
 import {ConsumerClient} from "./client/consumerClient";
 import {EachMessagePayload} from "kafkajs";
+import {GeoCodingService} from "./services/geoCodingService";
 
 export class Server {
 
     private readonly server: http.Server
     private TweetGeoLocationService = new TweetGeoLocationService();
     private consumerClient = new ConsumerClient();
+    private GeoCodingService = new GeoCodingService();
 
     constructor(private readonly app: express.Express) {
         const dir = path.join(__dirname, "../../geo-locator-ui/build/");
@@ -44,10 +46,12 @@ export class Server {
 
                 await kitty.run({
                     eachMessage: async (result: EachMessagePayload) => {
+                        console.log("Consuming messages...");
                         const data = JSON.parse(`${result.message.value}`);
                         if (data.topic == msg) {
                             console.log(`Received the locations for: ${msg}`);
-                            ws.send(`${result.message.value}`);
+                            const res = await this.GeoCodingService.getCoordinates(data);
+                            ws.send(JSON.stringify(res));
                             await kitty.disconnect();
                         }
                     }
