@@ -44,7 +44,7 @@ def get_tweets(topic):
         raise
     except requests.exceptions.Timeout as err:
         print("Connection to api.twitter.com has timed out", err)
-        raise
+        return json.dumps([])
     except requests.exceptions.HTTPError as err:
         print("Http Error:", err)
         raise

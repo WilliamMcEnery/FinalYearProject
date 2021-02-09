@@ -1,13 +1,10 @@
 import kafkaProducerClient from "../client/kafkaProducerClient";
-import {EachMessagePayload, Message, ProducerRecord, RecordMetadata} from "kafkajs";
-// import {HelloKitty} from "../client/helloKitty";
+import {Message, ProducerRecord, RecordMetadata} from "kafkajs";
 
 export class TweetGeoLocationService {
     private producer = new kafkaProducerClient().getKafkaProducerInstance();
-    // private helloKitty = new HelloKitty();
 
     public async getGeoLocations(topic: string) {
-        // const kitty = await this.helloKitty.getKafkaConsumerInstance();
         const message: Message = {
             value: topic
         };

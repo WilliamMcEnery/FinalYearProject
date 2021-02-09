@@ -4,14 +4,14 @@ import * as http from "http";
 import * as WebSocket from "ws";
 import kafkaProducerClient from "./client/kafkaProducerClient";
 import {TweetGeoLocationService} from "./services/tweetGeoLocationService";
-import {HelloKitty} from "./client/helloKitty";
+import {ConsumerClient} from "./client/consumerClient";
 import {EachMessagePayload} from "kafkajs";
 
 export class Server {
 
     private readonly server: http.Server
     private TweetGeoLocationService = new TweetGeoLocationService();
-    private helloKitty = new HelloKitty();
+    private consumerClient = new ConsumerClient();
 
     constructor(private readonly app: express.Express) {
         const dir = path.join(__dirname, "../../geo-locator-ui/build/");
@@ -35,13 +35,12 @@ export class Server {
         const wss = new WebSocket.Server({ server: this.server });
 
         wss.on("connection",  (ws: WebSocket) => {
-            console.log("A new client Connected!");
-            ws.send("Hello there!");
+            console.log("New client Connected!");
+            ws.send("Connected...");
 
             ws.on("message", async (msg: string) => {
-                console.log("Received a message: " + msg);
-                const kitty = await this.helloKitty.getKafkaConsumerInstance();
-                this.TweetGeoLocationService.getGeoLocations(msg).then(r => console.log(r));
+                const kitty = await this.consumerClient.getKafkaConsumerInstance();
+                await this.TweetGeoLocationService.getGeoLocations(msg);
 
                 await kitty.run({
                     eachMessage: async (result: EachMessagePayload) => {

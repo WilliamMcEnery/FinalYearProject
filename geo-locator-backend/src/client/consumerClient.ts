@@ -1,6 +1,6 @@
 import {Consumer, Kafka} from "kafkajs";
 
-export class HelloKitty {
+export class ConsumerClient {
 
     /**
      * Method to create and return a kafka consumer instance
