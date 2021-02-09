@@ -2,8 +2,7 @@ const singleton: unique symbol = Symbol("client-websocket");
 
 // eslint-disable-next-line
 export default class {
-    // @ts-ignore
-    private websocket: WebSocket;
+    private websocket!: WebSocket;
 
     constructor() {
         const Class = new.target;
@@ -28,7 +27,7 @@ export default class {
 
                 // Connection opened
                 this.websocket.addEventListener("open", function (event) {
-                    console.log("Connected to WS Server")
+                    console.log("Connected to WS Server");
                 });
 
                 // Listen for messages
@@ -48,7 +47,7 @@ export default class {
     /**
      * Method to call private getClient method and return the websocket instance
      */
-    public getWebsocketInstance() {
+    public getWebsocketInstance(): WebSocket {
         try {
             return this.getClient();
         } catch (err) {
