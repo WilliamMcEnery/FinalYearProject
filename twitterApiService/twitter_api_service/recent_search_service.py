@@ -23,8 +23,13 @@ def get_tweets(topic):
     }
 
     try:
+        data = {
+            "topic": topic,
+            "locations": []
+        }
+
         if topic == "":
-            return json.dumps([])
+            return json.dumps(data)
         res = requests.get(url, timeout=1, params=payload, headers=headers)
 
         if res.status_code == 200 and res.json().get("meta").get("result_count") != 0:
@@ -38,7 +43,7 @@ def get_tweets(topic):
             }
             return json.dumps(data)
 
-        return json.dumps([])
+        return json.dumps(data)
     except requests.exceptions.ConnectionError as err:
         print("Connection Error", err)
         raise
