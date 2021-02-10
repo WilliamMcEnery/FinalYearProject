@@ -30,11 +30,6 @@ export default class {
                     console.log("Connected to WS Server");
                 });
 
-                // Listen for messages
-                this.websocket.addEventListener("message", function (event) {
-                    console.log("Message from server ", event.data);
-                });
-
                 console.log("Successfully created websocket client");
             } catch (err) {
                 console.log("Failed to create websocket client", err.stack || err);

@@ -5,7 +5,7 @@ import { MarkerObj } from "../models/MarkerObject"
 import Pin from "./Pin";
 
 interface Props {
-    data: [MarkerObj]
+    data: MarkerObj[]
 }
 
 const Markers: React.FC<Props> = ({data}) => {

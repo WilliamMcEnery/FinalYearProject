@@ -15,7 +15,7 @@ function App() {
         longitude: 50,
         zoom: 2
     });
-    const [markers, setMarkers] = useState<any>([])
+    const [markers, setMarkers] = useState<any>([]);
 
     return (
         <div className="myContainer">

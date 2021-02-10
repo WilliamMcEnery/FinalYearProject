@@ -38,7 +38,8 @@ export class Server {
 
         wss.on("connection",  (ws: WebSocket) => {
             console.log("New client Connected!");
-            ws.send("Connected...");
+            const connected = [{name: "Connected", latitude: 0, longitude: 0}];
+            ws.send(connected);
 
             ws.on("message", async (msg: string) => {
                 const kitty = await this.consumerClient.getKafkaConsumerInstance();
