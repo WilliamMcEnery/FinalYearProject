@@ -22,7 +22,6 @@ export class GeoCodingService {
         console.log("Fetching Co-Ordinates...");
         try {
             const results = await geocoder.batchGeocode(data.locations);
-            console.log(results[0].value);
 
             const coordinates: CoordinateObj[] = results.map(location => {
                 const coordinate: CoordinateObj = {
@@ -33,8 +32,18 @@ export class GeoCodingService {
                 return coordinate;
             });
 
-            console.log(coordinates);
-            return coordinates;
+            const filteredArr = coordinates.reduce((acc: CoordinateObj[], current: CoordinateObj) => {
+                const x = acc.find(item => item.name === current.name);
+                if (!x) {
+                    return acc.concat([current]);
+                } else {
+                    return acc;
+                }
+            }, []);
+
+            console.log("This is the filtered array: ");
+            console.log(filteredArr);
+            return filteredArr;
 
         } catch (Error) {
             console.log(`there is an error ${Error}`);

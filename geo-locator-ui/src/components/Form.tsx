@@ -27,14 +27,8 @@ const Form: React.FC<Props> = ({inputText, setInputText, setMarkers}) => {
         // Listen for messages
         ws.addEventListener("message", function (event) {
             console.log("Message: ");
-            const data = JSON.stringify(event.data);
-            const newData: MarkerObj[] = JSON.parse(data);
-            console.log(newData);
-            // setMarkers(newData);
-            setMarkers([
-                {"name":"North West Drive, Lancaster, ENG LA1, GB","latitude":54.01179,"longitude":-2.78734},
-                {"name":"North West Drive, Lancaster, ENG LA1, GB","latitude":54.01179,"longitude":-2.78734},
-                ]);
+            const newData = JSON.parse(event.data);
+            setMarkers(newData);
         });
     };
     return (
