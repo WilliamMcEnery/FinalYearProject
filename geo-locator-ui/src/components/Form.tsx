@@ -1,16 +1,16 @@
 import React from "react";
-import {TweetGeoLocationService} from "../services/tweetGeoLocationService"
 import {MarkerObj} from "../models/MarkerObject"
 import {Button} from "react-bootstrap";
 import form from "react-bootstrap/Form";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import websocketClient from "../client/websocketClient";
 
-const tweetGeoLocationService = new TweetGeoLocationService()
+const ws = new websocketClient().getWebsocketInstance();
 
 interface Props {
     inputText: string;
     setInputText: (txt: string) => void;
-    setMarkers: (data: [MarkerObj]) => void;
+    setMarkers: (data: MarkerObj[]) => void;
 }
 
 const Form: React.FC<Props> = ({inputText, setInputText, setMarkers}) => {
@@ -21,16 +21,15 @@ const Form: React.FC<Props> = ({inputText, setInputText, setMarkers}) => {
     const inputKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => { e.key === 'Enter' && e.preventDefault(); }
     const submitButtonHandler = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        const res = await tweetGeoLocationService.getLocations(inputText);
-        console.log(res);
         setInputText("");
-        setMarkers([
-            {
-                name: "Limerick",
-                latitude: 52.518831649999996,
-                longitude: -8.79583467779582
-            }
-        ])
+        ws.send(inputText)
+
+        // Listen for messages
+        ws.addEventListener("message", function (event) {
+            console.log("Message: ");
+            const newData = JSON.parse(event.data);
+            setMarkers(newData);
+        });
     };
     return (
         <form>

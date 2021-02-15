@@ -13,7 +13,7 @@ interface Props {
         zoom: number
     };
     setViewport: (viewport: any) => void;
-    markers: [MarkerObj]
+    markers: MarkerObj[]
 }
 
 const Map: React.FC<Props> = ({viewport, setViewport, markers}) => {

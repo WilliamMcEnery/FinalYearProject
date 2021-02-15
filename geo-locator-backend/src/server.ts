@@ -1,3 +1,4 @@
+// Load required modules
 import * as express from "express";
 import * as path from "path";
 import * as http from "http";
@@ -6,13 +7,24 @@ import kafkaProducerClient from "./client/kafkaProducerClient";
 import {TweetGeoLocationService} from "./services/tweetGeoLocationService";
 import {ConsumerClient} from "./client/consumerClient";
 import {EachMessagePayload} from "kafkajs";
+import {GeoCodingService} from "./services/geoCodingService";
 
+/**
+ * This class is responsible providing the ability to create the
+ * Express server and run the server.
+ */
 export class Server {
 
     private readonly server: http.Server
     private TweetGeoLocationService = new TweetGeoLocationService();
     private consumerClient = new ConsumerClient();
+    private GeoCodingService = new GeoCodingService();
 
+    /**
+     * Constructor of the NodeJS Express Server
+     *
+     * @param app NodeJS Express Application object
+     */
     constructor(private readonly app: express.Express) {
         const dir = path.join(__dirname, "../../geo-locator-ui/build/");
         
@@ -34,21 +46,26 @@ export class Server {
         // initialize the WebSocket server instance
         const wss = new WebSocket.Server({ server: this.server });
 
+        // on new websocket connection
         wss.on("connection",  (ws: WebSocket) => {
             console.log("New client Connected!");
-            ws.send("Connected...");
+            const connected = [{name: "Connected", latitude: 0, longitude: 0}];
+            ws.send(connected);
 
+            // on message received from websocket
             ws.on("message", async (msg: string) => {
-                const kitty = await this.consumerClient.getKafkaConsumerInstance();
-                await this.TweetGeoLocationService.getGeoLocations(msg);
+                const consumer = await this.consumerClient.getKafkaConsumerInstance();
+                await this.TweetGeoLocationService.produceRecord(msg);
 
-                await kitty.run({
+                await consumer.run({
                     eachMessage: async (result: EachMessagePayload) => {
+                        console.log("Consuming messages...");
                         const data = JSON.parse(`${result.message.value}`);
                         if (data.topic == msg) {
                             console.log(`Received the locations for: ${msg}`);
-                            ws.send(`${result.message.value}`);
-                            await kitty.disconnect();
+                            const res = await this.GeoCodingService.getCoordinates(data);
+                            ws.send(JSON.stringify(res));
+                            await consumer.disconnect();
                         }
                     }
                 });
@@ -57,6 +74,9 @@ export class Server {
         });
     }
 
+    /**
+     * This function is responsible for running the Express server on the provided port.
+     */
     public run(): void {
         const port = process.env.PORT || 8080;
 

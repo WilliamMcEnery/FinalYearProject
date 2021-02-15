@@ -1,6 +1,10 @@
+// Load required modules
 import {Kafka, Producer} from "kafkajs";
 const singleton: unique symbol = Symbol("client-producer");
 
+/**
+ * This class is responsible providing a shared instance of a Kafka producer.
+ */
 export default class {
     private producer!: Producer;
 
