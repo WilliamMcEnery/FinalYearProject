@@ -1,8 +1,16 @@
 import NodeGeocoder, {Options} from "node-geocoder";
 import { CoordinateObj } from "../models/coordinateObject";
 
+/**
+ * This class is responsible providing the ability to geo-code location names and return
+ * the locations co-ordinates.
+ */
 export class GeoCodingService {
 
+    /**
+     * This method is responsible for getting location co-ordinates form the location names.
+     * @param data list of locations
+     */
     public async getCoordinates(data: any): Promise<CoordinateObj[]> {
         const options: Options = {
             provider: "mapquest",
@@ -41,8 +49,6 @@ export class GeoCodingService {
                 }
             }, []);
 
-            console.log("This is the filtered array: ");
-            console.log(filteredArr);
             return filteredArr;
 
         } catch (Error) {
@@ -52,4 +58,3 @@ export class GeoCodingService {
         return res;
     }
 }
-

@@ -1,9 +1,12 @@
 import {Consumer, Kafka} from "kafkajs";
 
+/**
+ * This class is responsible providing a instance of a Kafka consumer.
+ */
 export class ConsumerClient {
 
     /**
-     * Method to create and return a kafka consumer instance
+     * Method to create and return a kafka consumer instance.
      */
     private async getClient(): Promise<Consumer> {
         try {
@@ -37,6 +40,9 @@ export class ConsumerClient {
         }
     }
 
+    /**
+     * Method to call private getClient method and return a kafka consumer instance
+     */
     public getKafkaConsumerInstance(): Promise<Consumer> {
         try {
             return this.getClient();

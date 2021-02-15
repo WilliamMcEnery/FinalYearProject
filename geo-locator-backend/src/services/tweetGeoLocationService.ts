@@ -1,10 +1,18 @@
 import kafkaProducerClient from "../client/kafkaProducerClient";
 import {Message, ProducerRecord, RecordMetadata} from "kafkajs";
 
+/**
+ * This class is responsible providing the ability to produce a record to a Kafka topic.
+ */
 export class TweetGeoLocationService {
     private producer = new kafkaProducerClient().getKafkaProducerInstance();
 
-    public async getGeoLocations(topic: string) {
+    /**
+     * This method is responsible for creating and sending a kafka record to a kafka topic.
+     * @param topic Tweet topic string.
+     */
+    public async produceRecord(topic: string) {
+        // create kafka record
         const message: Message = {
             value: topic
         };
@@ -13,6 +21,7 @@ export class TweetGeoLocationService {
             messages: [message]
         };
 
+        // send record to kafka topic
         this.producer.send(record)
             .then((res: RecordMetadata[]) => {
                 console.log("success");
