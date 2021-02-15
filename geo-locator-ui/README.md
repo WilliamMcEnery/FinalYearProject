@@ -1,6 +1,51 @@
-# Getting Started with Create React App
+# Geo Locator UI Service
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Running Locally
+
+Change to the geo-locator-ui directory:
+
+### Install requirements
+
+```bash
+$ npm install
+```
+
+### Setting up configuration
+
+- Create a file called `.env.local` in the root directory `geo-locator-ui`,
+- Copy and paste the contents of this [file](.env.local.sample)
+.env.local.sample looks like:
+
+```text
+PORT = <Enter Port Number>
+```
+
+- Populate the `.env.local` file with your 
+    - Port number.
+
+### Running your service
+
+In your project directory, run:
+
+```bash
+$ npm start
+```
+
+This will start the service in the development mode.
+
+Or
+
+```bash
+$ npm run build
+```
+
+This will build the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
 ## Available Scripts
 
