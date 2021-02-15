@@ -1,3 +1,4 @@
+// Load required modules
 import kafkaProducerClient from "../client/kafkaProducerClient";
 import {Message, ProducerRecord, RecordMetadata} from "kafkajs";
 

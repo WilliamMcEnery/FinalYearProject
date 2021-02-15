@@ -1,3 +1,4 @@
+// Load required modules
 import {Kafka, Producer} from "kafkajs";
 const singleton: unique symbol = Symbol("client-producer");
 

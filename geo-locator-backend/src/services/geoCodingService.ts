@@ -1,3 +1,4 @@
+// Load required modules
 import NodeGeocoder, {Options} from "node-geocoder";
 import { CoordinateObj } from "../models/coordinateObject";
 

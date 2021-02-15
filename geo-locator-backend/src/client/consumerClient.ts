@@ -1,3 +1,4 @@
+// Load required modules
 import {Consumer, Kafka} from "kafkajs";
 
 /**
