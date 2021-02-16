@@ -18,10 +18,14 @@ $ npm install
 
 ```text
 PORT = <Enter Port Number>
+KAFKA_HOST = <Enter kafka Host>
+KAFKA_BROKER_PORT = <Enter kafka Port Number>
 ```
 
 - Populate the `.env` file with your 
     - Port number.
+    - Kafka Host.
+    - Kafka Port Number.
 
 ### Running your service
 

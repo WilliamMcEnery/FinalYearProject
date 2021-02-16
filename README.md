@@ -15,6 +15,10 @@ $ cd FinalYearProject
 
 Apply for a Twitter developer account [Here](https://developer.twitter.com/en/apply-for-access) to access Twitter APIs.
 
+Sign up to Mapbox [Here](https://www.mapbox.com/) to access map and map styling.
+
+Sign up to Mapquest [Here](https://www.mapquest.com/signup) to utilize geo-coding.
+
 Install Latest Python and pip: [Python](https://www.python.org/downloads/)
 
 Install Java 8+: [Java](https://www.java.com/en/download/)
