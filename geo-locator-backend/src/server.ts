@@ -66,8 +66,8 @@ export class Server {
                             const res = await this.GeoCodingService.getCoordinates(data);
                             console.log("Sending Co-ordinates...");
                             ws.send(JSON.stringify(res));
-                            await consumer.disconnect();
                             console.log("Consumer disconnected!");
+                            await consumer.disconnect();
                         }
                     }
                 });
