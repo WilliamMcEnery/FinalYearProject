@@ -29,9 +29,6 @@ def get_tweets(topic):
             "locations": []
         }
 
-        print("Fetching Tweets...")
-        print("Topic:", topic)
-
         if topic == "":
             return json.dumps(data)
         res = requests.get(url, timeout=1, params=payload, headers=headers)
