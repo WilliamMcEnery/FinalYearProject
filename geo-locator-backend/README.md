@@ -20,12 +20,15 @@ $ npm install
 PORT = <Enter Port Number>
 KAFKA_HOST = <Enter kafka Host>
 KAFKA_BROKER_PORT = <Enter kafka Port Number>
+MAPQUEST_API_KEY = <Enter Mapquest API Key>
+GEOCODING_PROVIDER = "mapquest"
 ```
 
 - Populate the `.env` file with your 
     - Port number.
     - Kafka Host.
     - Kafka Port Number.
+    - Personal Mapquest API key.
 
 ### Running your service
 
