@@ -30,7 +30,7 @@ export default class {
         if (!this.producer) {
             try {
                 const kafkaHost = process.env.KAFKA_HOST || "localhost";
-                const kafkaBrokerPort = process.env.KAFKA_HOST || 9092;
+                const kafkaBrokerPort = process.env.KAFKA_BROKER_PORT || 9092;
 
                 // Create Kafka connection.
                 const kafka = new Kafka({

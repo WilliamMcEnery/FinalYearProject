@@ -64,8 +64,10 @@ export class Server {
                         if (data.topic == msg) {
                             console.log(`Received the locations for: ${msg}`);
                             const res = await this.GeoCodingService.getCoordinates(data);
+                            console.log("Sending Co-ordinates...");
                             ws.send(JSON.stringify(res));
                             await consumer.disconnect();
+                            console.log("Consumer disconnected!");
                         }
                     }
                 });

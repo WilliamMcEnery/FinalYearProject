@@ -1,5 +1,5 @@
 // Load required modules
-import NodeGeocoder, {Options} from "node-geocoder";
+import NodeGeocoder, {Options, Providers} from "node-geocoder";
 import { CoordinateObj } from "../models/coordinateObject";
 
 /**
@@ -14,8 +14,8 @@ export class GeoCodingService {
      */
     public async getCoordinates(data: any): Promise<CoordinateObj[]> {
         const options: Options = {
-            provider: "mapquest",
-            apiKey: "CLs6cEsAxjnv5Ynbnk2iR5x9lQUX3Trv",
+            provider: process.env.GEOCODING_PROVIDER as Providers,
+            apiKey: process.env.MAPQUEST_API_KEY,
         };
 
         const geocoder = NodeGeocoder(options);
