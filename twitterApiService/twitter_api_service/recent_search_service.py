@@ -11,6 +11,7 @@ def get_tweets(topic):
     """
 
     @rtype: object
+    @param topic requested topic
     """
     url = "https://api.twitter.com/2/tweets/search/recent?query=%23" + topic
     payload = {
@@ -27,9 +28,6 @@ def get_tweets(topic):
             "topic": topic,
             "locations": []
         }
-
-        print("Fetching Tweets...")
-        print("Topic:", topic)
 
         if topic == "":
             return json.dumps(data)

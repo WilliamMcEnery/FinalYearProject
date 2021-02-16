@@ -1,5 +1,8 @@
 const singleton: unique symbol = Symbol("client-websocket");
 
+/**
+ * This class is responsible providing a shared instance of a Websocket Client.
+ */
 // eslint-disable-next-line
 export default class {
     private websocket!: WebSocket;

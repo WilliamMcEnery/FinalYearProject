@@ -15,11 +15,17 @@ $ cd FinalYearProject
 
 Apply for a Twitter developer account [Here](https://developer.twitter.com/en/apply-for-access) to access Twitter APIs.
 
+Sign up to Mapbox [Here](https://www.mapbox.com/) to access map and map styling.
+
+Sign up to Mapquest [Here](https://www.mapquest.com/signup) to utilize geo-coding.
+
 Install Latest Python and pip: [Python](https://www.python.org/downloads/)
 
 Install Java 8+: [Java](https://www.java.com/en/download/)
 
 Install Latest Apache Kafka: [Kafka](https://kafka.apache.org/downloads)
+
+Install Latest NodeJS and NPM: [Node.js](https://nodejs.org/en/download/)
 
 ### Running each service
 
@@ -47,3 +53,11 @@ $ bin/kafka-topics.sh --create --topic <second-topic-name> --bootstrap-server lo
 #### Start the Twitter API service
 
 See Twitter API service [README](twitterApiService/README.md) to run Twitter API service.
+
+#### Start the Geo-Locator UI service
+
+See Geo-Locator UI service [README](geo-locator-ui/README.md) to run Geo-Locator UI service.
+
+#### Start the Geo-Locator Backend service
+
+See Geo-Locator Backend service [README](geo-locator-backend/README.md) to run Geo-Locator Backend service.
