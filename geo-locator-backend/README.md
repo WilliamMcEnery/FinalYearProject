@@ -12,7 +12,7 @@ $ npm install
 
 ### Setting up configuration
 
-- Create a file called `.env` in the root directory `geo-locator-backend`,
+- Create a file called `.env` in the root directory `geo-locator-backend`.
 - Copy and paste the contents of this [file](.env.sample)
 .env.sample looks like:
 

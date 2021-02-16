@@ -32,7 +32,7 @@ $ pip install -r requirements.txt
 
 ### Setting up configuration
 
-- Create a file called `config.py` in the root directory `twitterApiService`,
+- Create a file called `config.py` in the root directory `twitterApiService`.
 - Copy and paste the contents of this [file](config.py.sample)
 config.py.sample looks like:
 

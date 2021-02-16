@@ -25,6 +25,8 @@ Install Java 8+: [Java](https://www.java.com/en/download/)
 
 Install Latest Apache Kafka: [Kafka](https://kafka.apache.org/downloads)
 
+Install Latest NodeJS and NPM: [Node.js](https://nodejs.org/en/download/)
+
 ### Running each service
 
 #### Start the Kafka environment

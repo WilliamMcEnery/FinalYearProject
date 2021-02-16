@@ -14,7 +14,7 @@ $ npm install
 
 ### Setting up configuration
 
-- Create a file called `.env.local` in the root directory `geo-locator-ui`,
+- Create a file called `.env.local` in the root directory `geo-locator-ui`.
 - Copy and paste the contents of this [file](.env.local.sample)
 .env.local.sample looks like:
 
