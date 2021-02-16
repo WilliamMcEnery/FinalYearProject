@@ -51,3 +51,11 @@ $ bin/kafka-topics.sh --create --topic <second-topic-name> --bootstrap-server lo
 #### Start the Twitter API service
 
 See Twitter API service [README](twitterApiService/README.md) to run Twitter API service.
+
+#### Start the Geo-Locator UI service
+
+See Geo-Locator UI service [README](geo-locator-ui/README.md) to run Geo-Locator UI service.
+
+#### Start the Geo-Locator Backend service
+
+See Geo-Locator Backend service [README](geo-locator-backend/README.md) to run Geo-Locator Backend service.
