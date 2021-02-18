@@ -31,15 +31,36 @@ export class GeoCodingService {
         console.log("Fetching Co-Ordinates...");
         try {
             const results = await geocoder.batchGeocode(data.locations);
+            console.log("Received geo-codes!\n");
+            // for (let i = 0; i < results.length; i++) {
+            //     console.log(results[i].value);
+            // }
+            // console.log("\n");
 
-            const coordinates: CoordinateObj[] = results.map(location => {
-                const coordinate: CoordinateObj = {
-                    name: location.value[0].formattedAddress!,
-                    latitude: location.value[0].latitude!,
-                    longitude: location.value[0].longitude!
-                };
-                return coordinate;
-            });
+            // const coordinates: CoordinateObj[] = results.map(location => {
+            //     console.log("---------------");
+            //     console.log(location);
+            //     if (location.value.length !== null) {
+            //         const coordinate: CoordinateObj = {
+            //             name: location.value[0].formattedAddress!,
+            //             latitude: location.value[0].latitude!,
+            //             longitude: location.value[0].longitude!
+            //         };
+            //         return coordinate;
+            //     }
+            // });
+
+            const coordinates = results.reduce((filtered: CoordinateObj[], location) => {
+                if (location.value.length !== 0) {
+                    const coordinate: CoordinateObj = {
+                        name: location.value[0].formattedAddress!,
+                        latitude: location.value[0].latitude!,
+                        longitude: location.value[0].longitude!
+                    };
+                    filtered.push(coordinate);
+                }
+                return filtered;
+            }, []);
 
             const filteredArr = coordinates.reduce((acc: CoordinateObj[], current: CoordinateObj) => {
                 const x = acc.find(item => item.name === current.name);
