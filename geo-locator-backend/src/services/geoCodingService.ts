@@ -31,15 +31,19 @@ export class GeoCodingService {
         console.log("Fetching Co-Ordinates...");
         try {
             const results = await geocoder.batchGeocode(data.locations);
+            console.log("Received geo-codes!\n");
 
-            const coordinates: CoordinateObj[] = results.map(location => {
-                const coordinate: CoordinateObj = {
-                    name: location.value[0].formattedAddress!,
-                    latitude: location.value[0].latitude!,
-                    longitude: location.value[0].longitude!
-                };
-                return coordinate;
-            });
+            const coordinates = results.reduce((filtered: CoordinateObj[], location) => {
+                if (location.value.length !== 0) {
+                    const coordinate: CoordinateObj = {
+                        name: location.value[0].formattedAddress!,
+                        latitude: location.value[0].latitude!,
+                        longitude: location.value[0].longitude!
+                    };
+                    filtered.push(coordinate);
+                }
+                return filtered;
+            }, []);
 
             const filteredArr = coordinates.reduce((acc: CoordinateObj[], current: CoordinateObj) => {
                 const x = acc.find(item => item.name === current.name);
