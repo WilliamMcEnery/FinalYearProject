@@ -30,9 +30,16 @@ const Form: React.FC<Props> = ({inputText, setInputText, setMarkers}) => {
                 inputText = inputText.substring(1);
 
                 // Remove hash tag
-                if (inputText[0] === "#") {
+                if (inputText[0] === '#') {
+                    console.log("found a hash");
                     inputText = inputText.substring(1);
                 }
+            }
+
+            // Remove hash tag
+            if (inputText[0] === '#') {
+                console.log("found a hash");
+                inputText = inputText.substring(1);
             }
 
             // only send if not empty
@@ -40,11 +47,13 @@ const Form: React.FC<Props> = ({inputText, setInputText, setMarkers}) => {
                 ws.send(inputText)
             }
 
+            const options: AddEventListenerOptions = {once: true};
+
             // Listen for messages
-            ws.addEventListener("message", function (event) {
+            ws.addEventListener("message", function (event: MessageEvent) {
                 const newData = JSON.parse(event.data);
                 setMarkers(newData);
-            });
+            }, options);
         }
     };
     return (
