@@ -8,6 +8,7 @@ colorama==0.4.4
 coverage==5.3.1
 Flask==1.1.2
 idna==2.10
+importlib-metadata==3.10.0
 iniconfig==1.1.1
 isort==5.7.0
 itsdangerous==1.1.0
@@ -24,10 +25,14 @@ pylint==2.6.0
 pyparsing==2.4.7
 pytest==6.2.1
 pytest-cov==2.10.1
+python-dotenv==0.16.0
 requests==2.25.1
 six==1.15.0
 tabulate==0.8.7
 toml==0.10.2
+typed-ast==1.4.2
+typing-extensions==3.7.4.3
 urllib3==1.26.2
 Werkzeug==1.0.1
 wrapt==1.12.1
+zipp==3.4.1
