@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geo-locator-deployment
+  labels:
+    app: geo-locator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geo-locator
+  template:
+    metadata:
+      labels:
+        app: geo-locator
+    spec:
+      containers:
+      - name: geo-locator
+        image: williammcenery/geo-locator:latest
+		ports:
+        - containerPort: 8080
+        env:
+        - name: MAPQUEST_API_KEY
+            valueFrom:
+                secretKeyRef:
+                    name: geo-locator-secret
+                    key: MAPQUEST_API_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: geo-locator-service
+spec:
+	selector:
+		app: geo-locator
+	type: LoadBalancer
+	ports:
+		- protocol: TCP
+		port: 8080
+		targetPort: 8080
+		nodePort: 30000

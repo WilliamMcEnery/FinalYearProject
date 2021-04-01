@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitter-service-deployment
+  labels:
+    app: twitter-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: twitter-service
+  template:
+    metadata:
+      labels:
+        app: twitter-service
+    spec:
+      containers:
+      - name: twitter-service
+        image: williammcenery/twitter-service

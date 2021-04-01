@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: geo-locator-configmap
+data:
+  port-number: 8080
+  zookeeper_url: kafka-service
+  gecoding-provider: "mapquest"
+  
