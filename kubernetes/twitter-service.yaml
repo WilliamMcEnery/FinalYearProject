@@ -23,11 +23,16 @@ spec:
             secretKeyRef:
               name: twitter-service-secret
               key: twitter_api_token
-        - name: KAFKA_BROKER_HOST_ADDR
+        - name: KAFKA_URL
           valueFrom:
             configMapKeyRef:
               name: twitter-service-configmap
               key: kafka_url
+        - name: KAFKA_PORT_NUMBER
+          valueFrom:
+            configMapKeyRef:
+              name: twitter-service-configmap
+              key: kafka_port_number
         - name: CONSUMER_TOPIC_NAME
           valueFrom:
             configMapKeyRef:

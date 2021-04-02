@@ -11,21 +11,21 @@ export class ConsumerClient {
      */
     private async getClient(): Promise<Consumer> {
         try {
-            // const kafkaHost = process.env.KAFKA_HOST || "localhost";
-            // const kafkaBrokerPort = process.env.KAFKA_BROKER_PORT || 9092;
-            const kafkaUrl = process.env.KAFKA_URL || "localhost:9093";
-
-            // Create Kafka connection.
-            // const kafka = new Kafka({
-            //     "clientId": "myapp",
-            //     "brokers" :[`${kafkaHost}:${kafkaBrokerPort}`]
-            // });
+            const kafkaHost = process.env.KAFKA_HOST || "localhost";
+            const kafkaBrokerPort = process.env.KAFKA_BROKER_PORT || 9092;
+            // const kafkaUrl = process.env.KAFKA_URL || "localhost:9093";
 
             // Create Kafka connection.
             const kafka = new Kafka({
                 "clientId": "myapp",
-                "brokers" :[kafkaUrl]
+                "brokers" :[`${kafkaHost}:${kafkaBrokerPort}`]
             });
+
+            // Create Kafka connection.
+            // const kafka = new Kafka({
+            //     "clientId": "myapp",
+            //     "brokers" :[kafkaUrl]
+            // });
 
             // Create Kafka consumer.
             const consumer = kafka.consumer({"groupId": "test"});

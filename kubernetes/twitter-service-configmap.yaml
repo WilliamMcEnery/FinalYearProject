@@ -4,5 +4,6 @@ metadata:
   name: twitter-service-configmap
 data:
   kafka_url: kafka-service
+  kafka_port_number: "9092"
   consumer_topic_name: "tweet-topics"
   producer_topic_name: "tweet-results"

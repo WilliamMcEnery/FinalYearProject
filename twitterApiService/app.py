@@ -1,6 +1,6 @@
 """
 
-entry pint for this Twitter API service
+entry point for this Twitter API service
 """
 from pykafka import KafkaClient
 from pykafka.common import OffsetType

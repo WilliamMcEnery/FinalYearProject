@@ -25,7 +25,7 @@ spec:
               secretKeyRef:
                 name: geo-locator-secret
                 key: MAPQUEST_API_KEY
-          - name: KAFKA_URL
+          - name: KAFKA_HOST
             valueFrom:
               configMapKeyRef:
                 name: geo-locator-configmap
