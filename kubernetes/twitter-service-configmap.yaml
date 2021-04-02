@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: twitter-service-configmap
+data:
+  kafka_url: kafka-service
+  consumer_topic_name: "tweet-topics"
+  producer_topic_name: "tweet-results"

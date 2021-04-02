@@ -17,25 +17,36 @@ spec:
       containers:
       - name: geo-locator
         image: williammcenery/geo-locator:latest
-		ports:
+        ports:
         - containerPort: 8080
         env:
-        - name: MAPQUEST_API_KEY
+          - name: MAPQUEST_API_KEY
             valueFrom:
-                secretKeyRef:
-                    name: geo-locator-secret
-                    key: MAPQUEST_API_KEY
+              secretKeyRef:
+                name: geo-locator-secret
+                key: MAPQUEST_API_KEY
+          - name: KAFKA_URL
+            valueFrom:
+              configMapKeyRef:
+                name: geo-locator-configmap
+                key: kafka_url
+          - name: GEOCODING_PROVIDER
+            valueFrom:
+              configMapKeyRef:
+                name: geo-locator-configmap
+                key: gecoding-provider
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: geo-locator-service
 spec:
-	selector:
-		app: geo-locator
-	type: LoadBalancer
-	ports:
-		- protocol: TCP
-		port: 8080
-		targetPort: 8080
-		nodePort: 30000
+  selector:
+    app: geo-locator
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30000
+      
