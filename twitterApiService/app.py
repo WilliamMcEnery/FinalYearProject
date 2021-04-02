@@ -2,19 +2,10 @@
 
 entry point for this Twitter API service
 """
-from pykafka import KafkaClient
-from pykafka.common import OffsetType
+from kafka import KafkaConsumer
+from kafka import KafkaProducer
 from twitter_api_service import app
 from twitter_api_service.recent_search_service import get_tweets
-
-
-def get_kafka_client():
-    """
-
-    This function returns a Kafka client connected to a Kafka broker
-    @rtype: object
-    """
-    return KafkaClient(hosts=app.config["KAFKA_BROKER_HOST_ADDR"])
 
 
 def topic_consumer():
@@ -24,12 +15,9 @@ def topic_consumer():
     """
 
     print("Creating Kafka Consumer...")
-    client = get_kafka_client()
-    topic = client.topics[app.config["CONSUMER_TOPIC_NAME"]]
-    consumer = topic.get_simple_consumer(
-        auto_offset_reset=OffsetType.LATEST,
-        reset_offset_on_start=True)
-
+    consumer = KafkaConsumer(app.config["CONSUMER_TOPIC_NAME"],
+                             group_id='my-group',
+                             bootstrap_servers=[app.config["KAFKA_BROKER_HOST_ADDR"]])
     print("New Kafka Consumer!")
 
     print("Consuming messages from " + app.config["CONSUMER_TOPIC_NAME"] + "...")
@@ -47,14 +35,12 @@ def topic_producer(message):
     @param message: List of Tweet Locations
     """
     print("Creating kafka Producer...")
-    client = get_kafka_client()
-
-    topic = client.topics[app.config["PRODUCER_TOPIC_NAME"]]
-
-    producer = topic.get_sync_producer()
+    producer = KafkaProducer(bootstrap_servers=[app.config["KAFKA_BROKER_HOST_ADDR"]])
 
     print("Producing Records to " + app.config["PRODUCER_TOPIC_NAME"])
-    producer.produce(message.encode('utf-8'))
+    producer.send(app.config["PRODUCER_TOPIC_NAME"], message.encode('utf-8'))
+
+    # producer.produce(message.encode('utf-8'))
 
 
 if __name__ == "__main__":
