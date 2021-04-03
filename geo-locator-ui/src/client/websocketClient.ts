@@ -25,8 +25,10 @@ export default class {
     private getClient(): WebSocket {
         if (!this.websocket) {
             try {
+                // const websocketUrl = `ws://${process.env.REACT_APP_WEBSOCKET_HOST}:${process.env.REACT_APP_WEBSOCKET_PORT_NUMBER}`
+                const websocketUrl = `ws://geo-locator-service:${process.env.REACT_APP_WEBSOCKET_PORT_NUMBER}`
                 // Create WebSocket connection.
-                this.websocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER as string);
+                this.websocket = new WebSocket(websocketUrl as string);
 
                 // Connection opened
                 this.websocket.addEventListener("open", function (event) {

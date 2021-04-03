@@ -1,3 +1,5 @@
 build
 node_modules
 .env.local.sample
+.env.local
+env.sh

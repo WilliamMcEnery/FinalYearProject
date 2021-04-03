@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geo-locator-ui-deployment
+  labels:
+    app: geo-locator-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geo-locator-ui
+  template:
+    metadata:
+      labels:
+        app: geo-locator-ui
+    spec:
+      containers:
+      - name: geo-locator-ui
+        image: williammcenery/geo-locator-ui:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: geo-locator-ui-service
+spec:
+  selector:
+    app: geo-locator-ui
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30000
+      

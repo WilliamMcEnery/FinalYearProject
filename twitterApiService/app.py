@@ -13,6 +13,11 @@ def topic_consumer():
 
     This function consumes messages from a Kafka topics
     """
+    print(app.config["TOKEN"])
+    print(app.config["KAFKA_URL"])
+    print(app.config["KAFKA_PORT_NUMBER"])
+    print(app.config["CONSUMER_TOPIC_NAME"])
+    print(app.config["PRODUCER_TOPIC_NAME"])
 
     print("Creating Kafka Consumer...")
     consumer = KafkaConsumer(app.config["CONSUMER_TOPIC_NAME"],

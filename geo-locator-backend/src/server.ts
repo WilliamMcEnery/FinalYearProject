@@ -80,6 +80,9 @@ export class Server {
      * This function is responsible for running the Express server on the provided port.
      */
     public run(): void {
+        console.log("===========================");
+        console.log(process.env.KAFKA_HOST);
+        console.log("===========================");
         const port = process.env.PORT || 8080;
 
         // start our server
