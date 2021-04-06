@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: geo-locator-ui-configmap
 data:
-  geo_locator_backend: geo-locator-service
+  geo_locator_backend: geo-locator.default.svc.cluster.local
   geo_locator_port_number: "8080"
   mapbox_style: mapbox://styles/williammcenery/ckk9s9dgz2mwx17o61altjahe

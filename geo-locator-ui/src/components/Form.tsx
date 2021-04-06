@@ -3,9 +3,7 @@ import {MarkerObj} from "../models/MarkerObject"
 import {Button} from "react-bootstrap";
 import form from "react-bootstrap/Form";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import websocketClient from "../client/websocketClient";
-
-const ws = new websocketClient().getWebsocketInstance();
+import fetch from 'node-fetch';
 
 interface Props {
     inputText: string;
@@ -31,29 +29,27 @@ const Form: React.FC<Props> = ({inputText, setInputText, setMarkers}) => {
 
                 // Remove hash tag
                 if (inputText[0] === '#') {
-                    console.log("found a hash");
                     inputText = inputText.substring(1);
                 }
             }
 
             // Remove hash tag
             if (inputText[0] === '#') {
-                console.log("found a hash");
                 inputText = inputText.substring(1);
             }
 
             // only send if not empty
             if (inputText.length !== 0) {
-                ws.send(inputText)
+                const backendUrl = process.env.REACT_APP_BACKEND_HOST || "localhost";
+                const backendPortNumber = process.env.REACT_APP_BACKEND_PORT || 8080;
+                try {
+                    const response = await fetch(`http://${backendUrl}:${backendPortNumber}/api/getTweets?topic=${inputText}`);
+                    const data = await response.json();
+                    setMarkers(data);
+                } catch (err) {
+                    console.log(err);
+                }
             }
-
-            const options: AddEventListenerOptions = {once: true};
-
-            // Listen for messages
-            ws.addEventListener("message", function (event: MessageEvent) {
-                const newData = JSON.parse(event.data);
-                setMarkers(newData);
-            }, options);
         }
     };
     return (

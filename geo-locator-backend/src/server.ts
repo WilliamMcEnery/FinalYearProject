@@ -1,13 +1,13 @@
 // Load required modules
 import * as express from "express";
 import * as path from "path";
-import * as http from "http";
-import * as WebSocket from "ws";
 import kafkaProducerClient from "./client/kafkaProducerClient";
 import {TweetGeoLocationService} from "./services/tweetGeoLocationService";
 import {ConsumerClient} from "./client/consumerClient";
 import {EachMessagePayload} from "kafkajs";
 import {GeoCodingService} from "./services/geoCodingService";
+import bodyParser from "body-parser";
+import cors from "cors";
 
 /**
  * This class is responsible providing the ability to create the
@@ -15,7 +15,7 @@ import {GeoCodingService} from "./services/geoCodingService";
  */
 export class Server {
 
-    private readonly server: http.Server
+    // private readonly server: http.Server
     private TweetGeoLocationService = new TweetGeoLocationService();
     private consumerClient = new ConsumerClient();
     private GeoCodingService = new GeoCodingService();
@@ -26,53 +26,49 @@ export class Server {
      * @param app NodeJS Express Application object
      */
     constructor(private readonly app: express.Express) {
-        const dir = path.join(__dirname, "../../geo-locator-ui/build/");
+        // const dir = path.join(__dirname, "../../geo-locator-ui/build/");
         
         this.app = app;
 
-        // Set the static and views directory
-        this.app.set("views",  dir);
-        this.app.use(express.static(dir));
-        this.app.get("*", (req: express.Request, res: express.Response): void => {
-            res.sendFile("index.html", {root: dir});
-        });
+        this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(bodyParser.json());
 
-        // initialize a simple http server
-        this.server = http.createServer(this.app);
+        this.app.use(cors());
+
+        // Set the static and views directory
+        // this.app.set("views",  dir);
+        // this.app.use(express.static(dir));
+        // this.app.get("*", (req: express.Request, res: express.Response): void => {
+        //     res.sendFile("index.html", {root: dir});
+        // });
+
+        app.use((req, res, next) => {
+            res.header("Access-Control-Allow-Origin", "*");
+            next();
+        });
 
         // initialize the Kafka producer instance
         new kafkaProducerClient();
 
-        // initialize the WebSocket server instance
-        const wss = new WebSocket.Server({ server: this.server });
+        app.get("/api/getTweets", async (req, res) => {
+            const msg = req.query.topic as string;
+            const consumer = await this.consumerClient.getKafkaConsumerInstance();
+            await this.TweetGeoLocationService.produceRecord(msg);
 
-        // on new websocket connection
-        wss.on("connection",  (ws: WebSocket) => {
-            console.log("New client Connected!");
-            const connected = [{name: "Connected", latitude: 0, longitude: 0}];
-            ws.send(connected);
-
-            // on message received from websocket
-            ws.on("message", async (msg: string) => {
-                const consumer = await this.consumerClient.getKafkaConsumerInstance();
-                await this.TweetGeoLocationService.produceRecord(msg);
-
-                await consumer.run({
-                    eachMessage: async (result: EachMessagePayload) => {
-                        console.log("Consuming messages...");
-                        const data = JSON.parse(`${result.message.value}`);
-                        if (data.topic == msg) {
-                            console.log(`Received the locations for: ${msg}`);
-                            const res = await this.GeoCodingService.getCoordinates(data);
-                            console.log("Sending Co-ordinates...");
-                            ws.send(JSON.stringify(res));
-                            console.log("Consumer disconnected!");
-                            await consumer.disconnect();
-                        }
+            await consumer.run({
+                eachMessage: async (result: EachMessagePayload) => {
+                    console.log("Consuming messages...");
+                    const data = JSON.parse(`${result.message.value}`);
+                    if (data.topic == msg) {
+                        console.log(`Received the locations for: ${msg}`);
+                        const result = await this.GeoCodingService.getCoordinates(data);
+                        console.log("Sending Co-ordinates...");
+                        res.send(JSON.stringify(result));
+                        console.log("Consumer disconnected!");
+                        await consumer.disconnect();
                     }
-                });
+                }
             });
-            ws.on("close", () => console.log("Client has disconnected"));
         });
     }
 
@@ -80,13 +76,10 @@ export class Server {
      * This function is responsible for running the Express server on the provided port.
      */
     public run(): void {
-        console.log("===========================");
-        console.log(process.env.KAFKA_HOST);
-        console.log("===========================");
         const port = process.env.PORT || 8080;
 
         // start our server
-        this.server.listen(port, () => {
+        this.app.listen(port, () => {
             console.log("Server is listening on port " + port);
         });
     }

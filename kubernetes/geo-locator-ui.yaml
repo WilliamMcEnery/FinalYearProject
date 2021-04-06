@@ -20,12 +20,12 @@ spec:
         ports:
         - containerPort: 3000
         env:
-          - name: REACT_APP_WEBSOCKET_HOST
+          - name: REACT_APP_BACKEND_HOST
             valueFrom:
               configMapKeyRef:
                 name: geo-locator-ui-configmap
                 key: geo_locator_backend
-          - name: REACT_APP_WEBSOCKET_PORT_NUMBER
+          - name: REACT_APP_BACKEND_PORT
             valueFrom:
               configMapKeyRef:
                 name: geo-locator-ui-configmap
