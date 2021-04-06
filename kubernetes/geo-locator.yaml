@@ -34,7 +34,7 @@ spec:
             valueFrom:
               configMapKeyRef:
                 name: geo-locator-configmap
-                key: gecoding-provider
+                key: gecoding_provider
 ---
 apiVersion: v1
 kind: Service
@@ -47,4 +47,5 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
+      
       

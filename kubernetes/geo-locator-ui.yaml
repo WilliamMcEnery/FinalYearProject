@@ -18,7 +18,28 @@ spec:
       - name: geo-locator-ui
         image: williammcenery/geo-locator-ui:latest
         ports:
-        - containerPort: 80
+        - containerPort: 3000
+        env:
+          - name: REACT_APP_WEBSOCKET_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: geo-locator-ui-configmap
+                key: geo_locator_backend
+          - name: REACT_APP_WEBSOCKET_PORT_NUMBER
+            valueFrom:
+              configMapKeyRef:
+                name: geo-locator-ui-configmap
+                key: geo_locator_port_number
+          - name: REACT_APP_MAPBOX_STYLE
+            valueFrom:
+              configMapKeyRef:
+                name: geo-locator-ui-configmap
+                key: mapbox_style
+          - name: REACT_APP_MAPBOX_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: geo-locator-ui-secret
+                key: mapbox_token
 ---
 apiVersion: v1
 kind: Service
@@ -30,7 +51,7 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 3000
+      targetPort: 3000
       nodePort: 30000
       

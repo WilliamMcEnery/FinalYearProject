@@ -4,5 +4,5 @@ metadata:
   name: geo-locator-configmap
 data:
   kafka_url: kafka-service
-  gecoding-provider: 'mapquest'
+  gecoding_provider: 'mapquest'
   
