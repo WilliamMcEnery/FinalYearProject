@@ -44,6 +44,7 @@ const Form: React.FC<Props> = ({inputText, setInputText, setMarkers}) => {
                 const backendPortNumber = process.env.REACT_APP_BACKEND_PORT || 8080;
                 try {
                     const response = await fetch(`http://${backendUrl}:${backendPortNumber}/api/getTweets?topic=${inputText}`);
+                    // const response = await fetch(`/api/getTweets?topic=${inputText}`);
                     const data = await response.json();
                     setMarkers(data);
                 } catch (err) {
