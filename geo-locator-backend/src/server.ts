@@ -26,7 +26,7 @@ export class Server {
      * @param app NodeJS Express Application object
      */
     constructor(private readonly app: express.Express) {
-        // const dir = path.join(__dirname, "../../geo-locator-ui/build/");
+        const dir = path.join(__dirname, "../../geo-locator-ui/build/");
         
         this.app = app;
 
@@ -36,11 +36,11 @@ export class Server {
         this.app.use(cors());
 
         // Set the static and views directory
-        // this.app.set("views",  dir);
-        // this.app.use(express.static(dir));
-        // this.app.get("*", (req: express.Request, res: express.Response): void => {
-        //     res.sendFile("index.html", {root: dir});
-        // });
+        this.app.set("views",  dir);
+        this.app.use(express.static(dir));
+        this.app.get("/", (req: express.Request, res: express.Response): void => {
+            res.sendFile("index.html", {root: dir});
+        });
 
         app.use((req, res, next) => {
             res.header("Access-Control-Allow-Origin", "*");

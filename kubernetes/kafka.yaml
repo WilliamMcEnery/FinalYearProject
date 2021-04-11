@@ -21,7 +21,7 @@ spec:
             - containerPort: 9092
           env:
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: INSIDE://localhost:9092,OUTSIDE://kafka:9093
+              value: INSIDE://kafka-service:9092,OUTSIDE://localhost:9093
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
               value: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
             - name: KAFKA_LISTENERS
