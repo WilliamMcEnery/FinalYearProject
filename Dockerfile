@@ -1,4 +1,4 @@
-FROM node
+FROM node AS build
 
 WORKDIR /usr/src/geo-locator-ui
 

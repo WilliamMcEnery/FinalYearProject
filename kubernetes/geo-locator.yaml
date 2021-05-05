@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geo-locator-deployment
+  labels:
+    app: geo-locator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geo-locator
+  template:
+    metadata:
+      labels:
+        app: geo-locator
+    spec:
+      containers:
+      - name: geo-locator
+        image: williammcenery/geo-locator:latest
+        ports:
+        - containerPort: 8080
+        env:
+          - name: MAPQUEST_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: geo-locator-secret
+                key: MAPQUEST_API_KEY
+          - name: KAFKA_BROKER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: geo-locator-configmap
+                key: kafka_broker_1
+          - name: KAFKA_BROKER_URL_2
+            valueFrom:
+              configMapKeyRef:
+                name: geo-locator-configmap
+                key: kafka_broker_2
+          - name: GEOCODING_PROVIDER
+            valueFrom:
+              configMapKeyRef:
+                name: geo-locator-configmap
+                key: gecoding_provider
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: geo-locator-service
+spec:
+  selector:
+    app: geo-locator
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30000
+      
+      

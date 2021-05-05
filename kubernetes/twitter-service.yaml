@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitter-service-deployment
+  labels:
+    app: twitter-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: twitter-service
+  template:
+    metadata:
+      labels:
+        app: twitter-service
+    spec:
+      containers:
+      - name: twitter-service
+        image: williammcenery/twitter-service
+        env:
+        - name: TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: twitter-service-secret
+              key: twitter_api_token
+        - name: KAFKA_BROKER_HOST_ADDR
+          valueFrom:
+            configMapKeyRef:
+              name: twitter-service-configmap
+              key: kafka_broker_1
+        - name: KAFKA_BROKER_HOST_ADDR_2
+          valueFrom:
+            configMapKeyRef:
+              name: twitter-service-configmap
+              key: kafka_broker_2
+        - name: CONSUMER_TOPIC_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: twitter-service-configmap
+              key: consumer_topic_name
+        - name: PRODUCER_TOPIC_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: twitter-service-configmap
+              key: producer_topic_name

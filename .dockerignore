@@ -1,6 +1,7 @@
 geo-locator-backend/node_modules
 geo-locator-backend/npm-debug.log
 geo-locator-backend/.env.sample
+geo-locator-backend/.env
 geo-locator-ui/build
 geo-locator-ui/.env.local.sample
 geo-locator-ui/node_modules
