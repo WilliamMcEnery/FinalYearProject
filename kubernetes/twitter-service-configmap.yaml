@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: twitter-service-configmap
 data:
-  kafka_broker_1: "b-1.geo-locator-kafka-clus.yug6fe.c3.kafka.eu-west-1.amazonaws.com:9092"
-  kafka_broker_2: "b-2.geo-locator-kafka-clus.yug6fe.c3.kafka.eu-west-1.amazonaws.com:9092"
+  kafka_broker_1: ""
+  kafka_broker_2: ""
   consumer_topic_name: "tweet-topics"
   producer_topic_name: "tweet-results"
