@@ -48,8 +48,6 @@ def topic_producer(message):
     print("Producing Records to " + app.config["PRODUCER_TOPIC_NAME"])
     producer.send(app.config["PRODUCER_TOPIC_NAME"], message.encode('utf-8'))
 
-    # producer.produce(message.encode('utf-8'))
-
 
 if __name__ == "__main__":
     topic_consumer()
