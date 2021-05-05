@@ -15,7 +15,6 @@ import cors from "cors";
  */
 export class Server {
 
-    // private readonly server: http.Server
     private TweetGeoLocationService = new TweetGeoLocationService();
     private consumerClient = new ConsumerClient();
     private GeoCodingService = new GeoCodingService();
