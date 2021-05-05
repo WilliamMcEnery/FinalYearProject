@@ -33,6 +33,10 @@ spec:
                   key: zookeeper_url
             - name: KAFKA_INTER_BROKER_LISTENER_NAME
               value: INSIDE
+            - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
+              value: "true"
+            - name: KAFKA_DELETE_TOPIC_ENABLE
+              value: "true"
             - name: KAFKA_CREATE_TOPICS
               value: "tweet-topics:1:1,tweet-results:1:1"
 ---

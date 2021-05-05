@@ -25,11 +25,16 @@ spec:
               secretKeyRef:
                 name: geo-locator-secret
                 key: MAPQUEST_API_KEY
-          - name: KAFKA_HOST
+          - name: KAFKA_BROKER_URL
             valueFrom:
               configMapKeyRef:
                 name: geo-locator-configmap
-                key: kafka_url
+                key: kafka_broker_1
+          - name: KAFKA_BROKER_URL_2
+            valueFrom:
+              configMapKeyRef:
+                name: geo-locator-configmap
+                key: kafka_broker_2
           - name: GEOCODING_PROVIDER
             valueFrom:
               configMapKeyRef:
@@ -43,9 +48,11 @@ metadata:
 spec:
   selector:
     app: geo-locator
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
+      nodePort: 30000
       
       

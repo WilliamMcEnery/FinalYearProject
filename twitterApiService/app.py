@@ -13,16 +13,16 @@ def topic_consumer():
 
     This function consumes messages from a Kafka topics
     """
-    print(app.config["TOKEN"])
-    print(app.config["KAFKA_URL"])
-    print(app.config["KAFKA_PORT_NUMBER"])
     print(app.config["CONSUMER_TOPIC_NAME"])
     print(app.config["PRODUCER_TOPIC_NAME"])
 
     print("Creating Kafka Consumer...")
     consumer = KafkaConsumer(app.config["CONSUMER_TOPIC_NAME"],
                              group_id='my-group',
-                             bootstrap_servers=[app.config["KAFKA_BROKER_HOST_ADDR"]])
+                             bootstrap_servers=[
+                                 app.config["KAFKA_BROKER_HOST_ADDR"],
+                                 app.config["KAFKA_BROKER_HOST_ADDR_2"]
+                             ])
     print("New Kafka Consumer!")
 
     print("Consuming messages from " + app.config["CONSUMER_TOPIC_NAME"] + "...")
@@ -40,7 +40,10 @@ def topic_producer(message):
     @param message: List of Tweet Locations
     """
     print("Creating kafka Producer...")
-    producer = KafkaProducer(bootstrap_servers=[app.config["KAFKA_BROKER_HOST_ADDR"]])
+    producer = KafkaProducer(bootstrap_servers=[
+        app.config["KAFKA_BROKER_HOST_ADDR"],
+        app.config["KAFKA_BROKER_HOST_ADDR_2"]
+    ])
 
     print("Producing Records to " + app.config["PRODUCER_TOPIC_NAME"])
     producer.send(app.config["PRODUCER_TOPIC_NAME"], message.encode('utf-8'))

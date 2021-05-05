@@ -98,13 +98,13 @@ $ docker-compose -f docker-compose.yml up -d
 This command runs the Kafka microservice made up of two docker containers (zookeeper and kafka) run in detached mode.
 
 ```bash
-$ docker run -d -p 8080:8080 --network finalyearproject_default --name geo-locator geo-locator
+$ docker run -d -p 8080:8080 --env-file geo-locator-backend/.env --network finalyearproject_default --name geo-locator geo-locator
 ```
 
 This command runs the geo-locator microservice in a docker container in detached mode, on port 8080, on the same network as the kafka microservice.
 
 ```bash
-$ docker run -d --network finalyearproject_default --name twitter-service twitter-service
+$ docker run -d --env-file twitterApiService/.env --network finalyearproject_default --name twitter-service twitter-service
 ```
 
 This command runs the geo-locator microservice in a docker container in detached mode, on the same network as the kafka microservice.
