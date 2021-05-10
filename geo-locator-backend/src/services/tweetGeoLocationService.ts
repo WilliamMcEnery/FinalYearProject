@@ -29,9 +29,7 @@ export class TweetGeoLocationService {
                 "Accept": "application/vnd.kafka.v2+json"
             },
         })
-            .then(res => res.text())
-            .then(body => {
-                console.log(body);
+            .then(res => {
                 console.log("Sent Successfully!");
             })
             .catch(err => {

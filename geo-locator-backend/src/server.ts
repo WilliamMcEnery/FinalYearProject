@@ -6,6 +6,7 @@ import {ConsumerClient} from "./client/consumerClient";
 import {GeoCodingService} from "./services/geoCodingService";
 import bodyParser from "body-parser";
 import cors from "cors";
+import fetch from "node-fetch";
 
 /**
  * This class is responsible providing the ability to create the
@@ -47,6 +48,7 @@ export class Server {
         app.get("/api/getTweets", async (req, res) => {
             const msg = req.query.topic as string;
             const consumerUrl = await this.consumerClient.getKafkaConsumerInstance();
+            console.log(consumerUrl);
             await this.TweetGeoLocationService.produceRecord(msg);
 
             console.log("Consuming messages...");
@@ -57,7 +59,7 @@ export class Server {
             let gotRecord = false;
 
             while (!gotRecord) {
-                await fetch(`${consumerUrl}/records`, {
+                await fetch(`${consumerUrl}/records?timeout=3000&max_bytes=300000`, {
                     method: "GET",
                     headers: {
                         "Accept": "application/vnd.kafka.json.v2+json"
@@ -66,11 +68,12 @@ export class Server {
                     .then(async result => {
                         const data = await result.json();
                         for (let i = 0; i < data.length; i++) {
-                            if (data[i].value.topic === msg) {
+                            if (data[i].value.topic.slice(1,-1) === msg) {
                                 console.log(`Received the locations for: ${msg}`);
-                                const geoCodedLocations = await this.GeoCodingService.getCoordinates(data);
+                                const geoCodedLocations = await this.GeoCodingService.getCoordinates(data[i].value);
                                 console.log("Sending Co-ordinates...");
                                 res.send(JSON.stringify(geoCodedLocations));
+                                this.consumerClient.deleteClientInstance();
                                 gotRecord = true;
                             }
                         }
@@ -90,7 +93,7 @@ export class Server {
 
         // start our server
         this.app.listen(port, () => {
-            console.log("Server is listening on port " + port);
+            console.log("Server is listening on port " + port + "\n");
         });
     }
 }

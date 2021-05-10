@@ -1,3 +1,5 @@
+import fetch from "node-fetch";
+
 /**
  * This class is responsible providing a instance of a Kafka consumer.
  */
@@ -16,29 +18,58 @@ export class ConsumerClient {
 
             const subscribeToTopicsBody = {
                 "topics": [
-                    "tweet-topics"
+                    "tweet-results"
                 ]
             };
 
-            let consumerUrl = "";
+            // let consumerUrl = "";
+            //
+            // /**
+            //  * Create Consumer with groupId = test1
+            //  */
+            //
+            // await fetch(`${process.env.KAFKA_REST_PROXY_URL}/consumers/test1`, { method: "POST",
+            //     body:    JSON.stringify(createConsumerBody),
+            //     headers: {
+            //         "Content-Type": "application/vnd.kafka.v2+json",
+            //         "Accept": "application/vnd.kafka.v2+json"},
+            // })
+            //     .then(async res => {
+            //         const data = await res.json();
+            //         consumerUrl = await data.base_uri;
+            //         console.log(`Created consumer: ${createConsumerBody.name}`);
+            //     })
+            //     .catch(err => {
+            //         console.log(`Failed to create to kafka consumer: \n ${err}`);
+            //     });
+            
 
             /**
              * Create Consumer with groupId = test1
              */
-            await fetch(`${process.env.KAFKA_REST_PROXY_URL}/consumers/test1`, { method: "POST",
+            const res = await fetch(`${process.env.KAFKA_REST_PROXY_URL}/consumers/test1`, { 
+                method: "POST",
                 body:    JSON.stringify(createConsumerBody),
                 headers: {
                     "Content-Type": "application/vnd.kafka.v2+json",
                     "Accept": "application/vnd.kafka.v2+json"},
-            })
-                .then(async res => {
-                    const data = await res.json();
-                    consumerUrl = data.base_uri;
-                    console.log(`Created consumer: ${createConsumerBody.name}`);
-                })
-                .catch(err => {
-                    console.log(`Failed to create to kafka consumer: \n ${err}`);
-                });
+            });
+
+            const data = await res.json();
+            
+            const consumerUrl = await data.base_uri;
+
+            console.log(`Created consumer: ${createConsumerBody.name}`);
+                
+                
+            // .then(async res => {
+            //     const data = await res.json();
+            //     consumerUrl = await data.base_uri;
+            //     console.log(`Created consumer: ${createConsumerBody.name}`);
+            // })
+            // .catch(err => {
+            //     console.log(`Failed to create to kafka consumer: \n ${err}`);
+            // });
 
             /**
              * Subscribe to a topic
@@ -57,13 +88,31 @@ export class ConsumerClient {
                     console.log(`Failed to subscribe to kafka topic: \n ${err}`);
                 });
 
-            console.log("Successfully created Kafka consumer client");
+            console.log("Successfully created Kafka consumer client\n");
 
             return consumerUrl;
         } catch (err) {
             console.log("Failed to create Kafka consumer client", err.stack || err);
             throw new Error();
         }
+    }
+
+    /**
+     * Method to delete consumer instance.
+     */
+    public deleteClientInstance(): void {
+        fetch("http://54.229.95.89:8082/consumers/test1/instances/tweetTopicsConsumer", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/vnd.kafka.v2+json",
+            },
+        })
+            .then(res => {
+                console.log("Deleted consumer instance!");
+            })
+            .catch(err => {
+                console.log(`Failed to delete consumer instance: \n${err}`);
+            });
     }
 
     /**
