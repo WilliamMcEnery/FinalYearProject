@@ -1,33 +1,41 @@
-// Load required modules
-import kafkaProducerClient from "../client/kafkaProducerClient";
-import {Message, ProducerRecord, RecordMetadata} from "kafkajs";
+import fetch from "node-fetch";
 
 /**
  * This class is responsible providing the ability to produce a record to a Kafka topic.
  */
 export class TweetGeoLocationService {
-    private producer = new kafkaProducerClient().getKafkaProducerInstance();
-
     /**
      * This method is responsible for creating and sending a kafka record to a kafka topic.
      * @param topic Tweet topic string.
      */
     public async produceRecord(topic: string) {
-        // create kafka record
-        const message: Message = {
-            value: topic
-        };
-        const record: ProducerRecord = {
-            topic: "tweet-topics",
-            messages: [message]
+        // create kafka record to send to topic
+        const record = {
+            "records": [
+                {
+                    "value": topic
+                }
+            ]
         };
 
+        console.log("Sending records...");
+
         // send record to kafka topic
-        this.producer.send(record)
-            .then((res: RecordMetadata[]) => {
-                console.log("success");
+        fetch(`${process.env.KAFKA_REST_PROXY_URL}/topics/tweet-topics`, {
+            method: "POST",
+            body: JSON.stringify(record),
+            headers: {
+                "Content-Type": "application/vnd.kafka.json.v2+json",
+                "Accept": "application/vnd.kafka.v2+json"
+            },
+        })
+            .then(res => res.text())
+            .then(body => {
+                console.log(body);
+                console.log("Sent Successfully!");
             })
             .catch(err => {
+                console.log("Failed sending record to Kafka topic");
                 console.log(err);
                 throw(err);
             });

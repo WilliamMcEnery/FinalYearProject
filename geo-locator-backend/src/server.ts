@@ -1,10 +1,8 @@
 // Load required modules
 import * as express from "express";
 import * as path from "path";
-import kafkaProducerClient from "./client/kafkaProducerClient";
 import {TweetGeoLocationService} from "./services/tweetGeoLocationService";
 import {ConsumerClient} from "./client/consumerClient";
-import {EachMessagePayload} from "kafkajs";
 import {GeoCodingService} from "./services/geoCodingService";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -46,28 +44,41 @@ export class Server {
             next();
         });
 
-        // initialize the Kafka producer instance
-        new kafkaProducerClient();
-
         app.get("/api/getTweets", async (req, res) => {
             const msg = req.query.topic as string;
-            const consumer = await this.consumerClient.getKafkaConsumerInstance();
+            const consumerUrl = await this.consumerClient.getKafkaConsumerInstance();
             await this.TweetGeoLocationService.produceRecord(msg);
 
-            await consumer.run({
-                eachMessage: async (result: EachMessagePayload) => {
-                    console.log("Consuming messages...");
-                    const data = JSON.parse(`${result.message.value}`);
-                    if (data.topic == msg) {
-                        console.log(`Received the locations for: ${msg}`);
-                        const result = await this.GeoCodingService.getCoordinates(data);
-                        console.log("Sending Co-ordinates...");
-                        res.send(JSON.stringify(result));
-                        console.log("Consumer disconnected!");
-                        await consumer.disconnect();
+            console.log("Consuming messages...");
+
+            /**
+             * Consume records
+             */
+            let gotRecord = false;
+
+            while (!gotRecord) {
+                await fetch(`${consumerUrl}/records`, {
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/vnd.kafka.json.v2+json"
                     }
-                }
-            });
+                })
+                    .then(async result => {
+                        const data = await result.json();
+                        for (let i = 0; i < data.length; i++) {
+                            if (data[i].value.topic === msg) {
+                                console.log(`Received the locations for: ${msg}`);
+                                const geoCodedLocations = await this.GeoCodingService.getCoordinates(data);
+                                console.log("Sending Co-ordinates...");
+                                res.send(JSON.stringify(geoCodedLocations));
+                                gotRecord = true;
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.log(`Error reading records: \n${err}`);
+                    });
+            }
         });
     }
 
