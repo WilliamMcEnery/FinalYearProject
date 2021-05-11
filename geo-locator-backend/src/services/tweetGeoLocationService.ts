@@ -8,7 +8,7 @@ export class TweetGeoLocationService {
      * This method is responsible for creating and sending a kafka record to a kafka topic.
      * @param topic Tweet topic string.
      */
-    public async produceRecord(topic: string) {
+    public async produceRecord(topic: string): Promise<void> {
         // create kafka record to send to topic
         const record = {
             "records": [
@@ -21,7 +21,7 @@ export class TweetGeoLocationService {
         console.log("Sending records...");
 
         // send record to kafka topic
-        fetch(`${process.env.KAFKA_REST_PROXY_URL}/topics/tweet-topics`, {
+        await fetch(`${process.env.KAFKA_REST_PROXY_URL}/topics/tweet-topics`, {
             method: "POST",
             body: JSON.stringify(record),
             headers: {

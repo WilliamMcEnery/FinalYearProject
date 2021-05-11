@@ -68,9 +68,12 @@ export class Server {
                     .then(async result => {
                         const data = await result.json();
                         for (let i = 0; i < data.length; i++) {
-                            if (data[i].value.topic.slice(1,-1) === msg) {
+                            const val = JSON.parse(data[i].value);
+                            const newVal = JSON.parse(val);
+
+                            if (newVal.topic === msg) {
                                 console.log(`Received the locations for: ${msg}`);
-                                const geoCodedLocations = await this.GeoCodingService.getCoordinates(data[i].value);
+                                const geoCodedLocations = await this.GeoCodingService.getCoordinates(newVal);
                                 console.log("Sending Co-ordinates...");
                                 res.send(JSON.stringify(geoCodedLocations));
                                 this.consumerClient.deleteClientInstance();

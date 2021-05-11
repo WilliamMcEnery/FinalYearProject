@@ -22,28 +22,6 @@ export class ConsumerClient {
                 ]
             };
 
-            // let consumerUrl = "";
-            //
-            // /**
-            //  * Create Consumer with groupId = test1
-            //  */
-            //
-            // await fetch(`${process.env.KAFKA_REST_PROXY_URL}/consumers/test1`, { method: "POST",
-            //     body:    JSON.stringify(createConsumerBody),
-            //     headers: {
-            //         "Content-Type": "application/vnd.kafka.v2+json",
-            //         "Accept": "application/vnd.kafka.v2+json"},
-            // })
-            //     .then(async res => {
-            //         const data = await res.json();
-            //         consumerUrl = await data.base_uri;
-            //         console.log(`Created consumer: ${createConsumerBody.name}`);
-            //     })
-            //     .catch(err => {
-            //         console.log(`Failed to create to kafka consumer: \n ${err}`);
-            //     });
-            
-
             /**
              * Create Consumer with groupId = test1
              */
@@ -52,7 +30,8 @@ export class ConsumerClient {
                 body:    JSON.stringify(createConsumerBody),
                 headers: {
                     "Content-Type": "application/vnd.kafka.v2+json",
-                    "Accept": "application/vnd.kafka.v2+json"},
+                    "Accept": "application/vnd.kafka.v2+json"
+                },
             });
 
             const data = await res.json();
@@ -60,16 +39,6 @@ export class ConsumerClient {
             const consumerUrl = await data.base_uri;
 
             console.log(`Created consumer: ${createConsumerBody.name}`);
-                
-                
-            // .then(async res => {
-            //     const data = await res.json();
-            //     consumerUrl = await data.base_uri;
-            //     console.log(`Created consumer: ${createConsumerBody.name}`);
-            // })
-            // .catch(err => {
-            //     console.log(`Failed to create to kafka consumer: \n ${err}`);
-            // });
 
             /**
              * Subscribe to a topic
