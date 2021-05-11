@@ -91,7 +91,6 @@ def topic_consumer():
 
     This function consumes messages from a Kafka topics
     """
-    # delete_consumer_instance("http://54.229.95.89:8082/consumers/test2/instances/tweetResultsConsumer")
     consumer_url = create_consumer()
     subscribe_to_kafka_topic(consumer_url)
 
@@ -104,9 +103,7 @@ def topic_consumer():
 
     while True:
         response = requests.get(url, headers=headers)
-        print(response.json())
         for i in response.json():
-            print(i.get("value"))
             res = get_tweets(i.get("value"))
             topic_producer(res)
 
@@ -117,14 +114,15 @@ def topic_producer(message):
     This function produces messages to a Kafka topic
     @param message: List of Tweet Locations
     """
+
     print("Producing Records to " + app.config["PRODUCER_TOPIC_NAME"])
-    print(message)
+
     url = app.config["KAFKA_REST_PROXY_URL"] + "/topics/" + app.config["PRODUCER_TOPIC_NAME"]
-    print(url)
     payload = {
         "records": [
             {
-                "value": json.dumps(message)
+                # "value": json.dumps(message)
+                "value": message
             }
         ]
     }

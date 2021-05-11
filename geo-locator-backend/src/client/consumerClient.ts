@@ -34,6 +34,11 @@ export class ConsumerClient {
                 },
             });
 
+            if (res.status === 409) {
+                console.log("Using existing consumer instance!");
+                return `${process.env.KAFKA_REST_PROXY_URL}/consumers/test1/instances/${createConsumerBody.name}`;
+            }
+
             const data = await res.json();
             
             const consumerUrl = await data.base_uri;
