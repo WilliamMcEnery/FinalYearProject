@@ -29,8 +29,6 @@ def create_consumer():
 
     response = requests.post(url, data=json.dumps(create_consumer_body), headers=headers)
 
-    print(response.status_code)
-
     if response.status_code == 409:
         print("Using existing consumer!")
         return app.config["KAFKA_REST_PROXY_URL"] + "/consumers/test2/instances/" + create_consumer_body.get("name")

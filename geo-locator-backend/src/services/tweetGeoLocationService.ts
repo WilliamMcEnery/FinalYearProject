@@ -30,10 +30,10 @@ export class TweetGeoLocationService {
             },
         })
             .then(res => {
-                console.log("Sent Successfully!");
+                console.log("Sent Successfully!\n");
             })
             .catch(err => {
-                console.log("Failed sending record to Kafka topic");
+                console.log("Failed sending record to Kafka topic\n");
                 console.log(err);
                 throw(err);
             });

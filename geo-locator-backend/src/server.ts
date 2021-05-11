@@ -48,7 +48,6 @@ export class Server {
         app.get("/api/getTweets", async (req, res) => {
             const msg = req.query.topic as string;
             const consumerUrl = await this.consumerClient.getKafkaConsumerInstance();
-            console.log(consumerUrl);
             await this.TweetGeoLocationService.produceRecord(msg);
 
             console.log("Consuming messages...");
@@ -69,12 +68,11 @@ export class Server {
                         const data = await result.json();
                         for (let i = 0; i < data.length; i++) {
                             const val = JSON.parse(data[i].value);
-                            console.log(val);
 
                             if (val.topic === msg) {
-                                console.log(`Received the locations for: ${msg}`);
+                                console.log(`Received the locations for the topic: ${msg}\n`);
                                 const geoCodedLocations = await this.GeoCodingService.getCoordinates(val);
-                                console.log("Sending Co-ordinates...");
+                                console.log("Sending Co-ordinates...\n");
                                 res.send(JSON.stringify(geoCodedLocations));
                                 this.consumerClient.deleteClientInstance();
                                 gotRecord = true;
