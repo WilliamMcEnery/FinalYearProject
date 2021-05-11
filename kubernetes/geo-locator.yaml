@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: geo-locator
-        image: williammcenery/geo-locator:latest
+        image: williammcenery/geo-locator-rest-proxy:latest
         ports:
         - containerPort: 8080
         env:
@@ -25,16 +25,11 @@ spec:
               secretKeyRef:
                 name: geo-locator-secret
                 key: MAPQUEST_API_KEY
-          - name: KAFKA_BROKER_URL
+          - name: KAFKA_REST_PROXY_URL
             valueFrom:
               configMapKeyRef:
                 name: geo-locator-configmap
-                key: kafka_broker_1
-          - name: KAFKA_BROKER_URL_2
-            valueFrom:
-              configMapKeyRef:
-                name: geo-locator-configmap
-                key: kafka_broker_2
+                key: kafka_rest_proxy_url
           - name: GEOCODING_PROVIDER
             valueFrom:
               configMapKeyRef:
