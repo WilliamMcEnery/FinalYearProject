@@ -2,16 +2,14 @@
 
 entry point for this Twitter API service
 """
-import requests
-import json
 from flask import request
 from twitter_api_service import app
 from twitter_api_service.recent_search_service import get_tweets
 
 
-@app.route("/api/health-check")
+@app.route("/")
 def health_check():
-    return 200
+    return "status: 200"
 
 
 @app.route("/api/get-tweet-locations")

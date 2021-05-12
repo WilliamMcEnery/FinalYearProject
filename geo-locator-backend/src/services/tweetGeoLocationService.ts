@@ -12,6 +12,6 @@ export class TweetGeoLocationService {
         console.log("Producing to topic...");
         console.log("Produced!");
         console.log("Consuming records...");
-        return (await fetch(`${process.env.KAFKA_REST_PROXY_URL}:${process.env.KAFKA_REST_PROXY_PORT}/api/get-tweet-locations?topic=${topic}`)).json();
+        return (await fetch(`http://${process.env.KAFKA_REST_PROXY_URL}:${process.env.KAFKA_REST_PROXY_PORT}/api/get-tweet-locations?topic=${topic}`)).json();
     }
 }
