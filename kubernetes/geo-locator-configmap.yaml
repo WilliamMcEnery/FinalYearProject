@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: geo-locator-configmap
 data:
-  kafka_rest_proxy_url: "http://54.229.95.89:8082"
+  kafka_rest_proxy_url: twitter-service-service
+  kafka_rest_proxy_port: "5000"
   gecoding_provider: "mapquest"
   

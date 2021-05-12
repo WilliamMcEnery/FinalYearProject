@@ -2,11 +2,9 @@
 import * as express from "express";
 import * as path from "path";
 import {TweetGeoLocationService} from "./services/tweetGeoLocationService";
-import {ConsumerClient} from "./client/consumerClient";
 import {GeoCodingService} from "./services/geoCodingService";
 import bodyParser from "body-parser";
 import cors from "cors";
-import fetch from "node-fetch";
 
 /**
  * This class is responsible providing the ability to create the
@@ -15,7 +13,6 @@ import fetch from "node-fetch";
 export class Server {
 
     private TweetGeoLocationService = new TweetGeoLocationService();
-    private consumerClient = new ConsumerClient();
     private GeoCodingService = new GeoCodingService();
 
     /**
@@ -47,42 +44,15 @@ export class Server {
 
         app.get("/api/getTweets", async (req, res) => {
             const msg = req.query.topic as string;
-            const consumerUrl = await this.consumerClient.getKafkaConsumerInstance();
-            await this.TweetGeoLocationService.produceRecord(msg);
+            console.log(`Received request for the topic: ${msg}`);
 
-            console.log("Consuming messages...");
+            const tweetLocations = await this.TweetGeoLocationService.getTweetLocations(msg);
+            console.log("Received locations!");
 
-            /**
-             * Consume records
-             */
-            let gotRecord = false;
+            const geoCodedLocations = await this.GeoCodingService.getCoordinates(tweetLocations);
 
-            while (!gotRecord) {
-                await fetch(`${consumerUrl}/records?timeout=3000&max_bytes=300000`, {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/vnd.kafka.json.v2+json"
-                    }
-                })
-                    .then(async result => {
-                        const data = await result.json();
-                        for (let i = 0; i < data.length; i++) {
-                            const val = JSON.parse(data[i].value);
-
-                            if (val.topic === msg) {
-                                console.log(`Received the locations for the topic: ${msg}\n`);
-                                const geoCodedLocations = await this.GeoCodingService.getCoordinates(val);
-                                console.log("Sending Co-ordinates...\n");
-                                res.send(JSON.stringify(geoCodedLocations));
-                                this.consumerClient.deleteClientInstance();
-                                gotRecord = true;
-                            }
-                        }
-                    })
-                    .catch(err => {
-                        console.log(`Error reading records: \n${err}`);
-                    });
-            }
+            res.send(geoCodedLocations);
+            console.log("Returned geo-codes!\n");
         });
     }
 

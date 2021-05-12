@@ -17,6 +17,8 @@ spec:
       containers:
       - name: twitter-service
         image: williammcenery/twitter-service-rest-proxy
+        ports:
+          - containerPort: 5000
         env:
         - name: TOKEN
           valueFrom:
@@ -38,3 +40,15 @@ spec:
             configMapKeyRef:
               name: twitter-service-configmap
               key: producer_topic_name
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: twitter-service-service
+spec:
+  selector:
+    app: twitter-service
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

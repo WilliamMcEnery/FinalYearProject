@@ -31,7 +31,7 @@ export class GeoCodingService {
         console.log("Fetching Co-Ordinates...");
         try {
             const results = await geocoder.batchGeocode(data.locations);
-            console.log("Received geo-codes!\n");
+            console.log("Received geo-codes!");
 
             const coordinates = results.reduce((filtered: CoordinateObj[], location) => {
                 if (location.value.length !== 0) {
