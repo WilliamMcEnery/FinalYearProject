@@ -16,7 +16,10 @@ spec:
     spec:
       containers:
       - name: geo-locator
-        image: williammcenery/geo-locator-rest-proxy:latest
+        image: williammcenery/geo-locator-rest-proxy-testing:latest
+        resources:
+          requests:
+            cpu: 500m
         ports:
         - containerPort: 8080
         env:
