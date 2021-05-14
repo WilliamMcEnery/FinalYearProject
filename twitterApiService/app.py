@@ -119,7 +119,6 @@ def topic_producer(message):
     payload = {
         "records": [
             {
-                # "value": json.dumps(message)
                 "value": message
             }
         ]
